@@ -244,6 +244,7 @@ export default function NotFound() {
   return (
     <>
       <Head>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <title>404 — Lost in the wheel | Growster</title>
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
