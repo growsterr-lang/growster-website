@@ -28,6 +28,7 @@ const TEAM = [
   { name:'Prachi', role:'PR & Relationships', img:'/Prachi.jpeg', fun:"In a new city everyday. No idea how she affords it.", color:'#10b981', emoji:'✈️' },
   { name:'Suraj', role:'Video Editor', img:'/Suraj.jpeg', fun:'Loves Stranger Things. Which is ironic because he is a strange thing.', color:'#ec4899', emoji:'👁️' },
   { name:'Aryan', role:'Graphic Design', img:'/Aryan.png', fun:"HUGE Jackie Shroff fan. He's from Mumbai. Makes sense.", color:'#f97316', emoji:'🎨' },
+  { name:'Sukh', role:'Chief Cinematographer', img:'/Sukh.jpeg', fun:"Loves to be behind the camera, hates white lights. Don't ask him the difference between ISO and EV. Please.", color:'#06b6d4', emoji:'🎬' },
 ]
 
 const STATS = [
