@@ -1047,12 +1047,12 @@ export default function TestSite() {
                     if (!formData.name || !formData.email || !formData.phone) return
                     setFormStatus('sending')
                     try {
-                      const res = await fetch('https://agrcthbmusxtjstfvst.supabase.co/rest/v1/leads', {
+                      const res = await fetch('https://agrctbhbmusxtjstfvst.supabase.co/rest/v1/leads', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
-                          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0aGJtdXN4dGpzdGZ2c3QiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwNzI5NzIyMiwiZXhwIjoyMDIyODczMjIyfQ.QUwDRNqoQQVDrxFRx1sZwSfCLLOBT3LVzgkFWkZVeik',
-                          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0aGJtdXN4dGpzdGZ2c3QiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwNzI5NzIyMiwiZXhwIjoyMDIyODczMjIyfQ.QUwDRNqoQQVDrxFRx1sZwSfCLLOBT3LVzgkFWkZVeik',
+                          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0YmhibXVzeHRqc3RmdnN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTcwODgsImV4cCI6MjA4OTMzMzA4OH0.4hXxsswtPE7PUnKNBWEOpiDRT8T2kMO0HaPUQ8fn2pQ',
+                          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0YmhibXVzeHRqc3RmdnN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTcwODgsImV4cCI6MjA4OTMzMzA4OH0.4hXxsswtPE7PUnKNBWEOpiDRT8T2kMO0HaPUQ8fn2pQ',
                           'Prefer': 'return=minimal'
                         },
                         body: JSON.stringify(formData)
