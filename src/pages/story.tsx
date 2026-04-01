@@ -287,8 +287,8 @@ export default function StoryPage() {
   return (
     <>
       <Head>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/Growster-Favicon.png" />
+    <link rel="apple-touch-icon" href="/Growster-Favicon.png" />
         <title>Our Story — Growster</title>
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link
