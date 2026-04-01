@@ -42,6 +42,8 @@ export default function TestSite() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
   const [cursorHover, setCursorHover] = useState(false)
   const [activeService, setActiveService] = useState<number | null>(null)
+  const [formData, setFormData] = useState({ name:'', brand:'', email:'', message:'' })
+  const [formStatus, setFormStatus] = useState<'idle'|'sending'|'sent'|'error'>('idle')
   const [isMobile, setIsMobile] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const [activeSection, setActiveSection] = useState('services')
@@ -1020,22 +1022,48 @@ export default function TestSite() {
                 <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap:11 }}>
                   <div>
                     <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Your name</label>
-                    <input placeholder="Harshit Arora" />
+                    <input placeholder="Harshit Arora" value={formData.name} onChange={e => setFormData(p => ({...p, name:e.target.value}))} />
                   </div>
                   <div>
                     <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Brand</label>
-                    <input placeholder="Snitch" />
+                    <input placeholder="Snitch" value={formData.brand} onChange={e => setFormData(p => ({...p, brand:e.target.value}))} />
                   </div>
                 </div>
                 <div>
                   <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Email</label>
-                  <input type="email" placeholder="you@brand.com" />
+                  <input type="email" placeholder="you@brand.com" value={formData.email} onChange={e => setFormData(p => ({...p, email:e.target.value}))} />
                 </div>
                 <div>
                   <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>What are you looking for?</label>
-                  <textarea placeholder="Tell us about your brand, your current challenges, and what growth means to you…" />
+                  <textarea placeholder="Tell us about your brand, your current challenges, and what growth means to you…" value={formData.message} onChange={e => setFormData(p => ({...p, message:e.target.value}))} />
                 </div>
-                <a href="mailto:work@growster.in" className="cta-p" style={{ justifyContent:'center', marginTop:4 }}>Send message →</a>
+                <button
+                  disabled={formStatus === 'sending' || formStatus === 'sent'}
+                  onClick={async () => {
+                    if (!formData.name || !formData.email) return
+                    setFormStatus('sending')
+                    try {
+                      const res = await fetch('https://agrcthbmusxtjstfvst.supabase.co/rest/v1/leads', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0aGJtdXN4dGpzdGZ2c3QiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwNzI5NzIyMiwiZXhwIjoyMDIyODczMjIyfQ.QUwDRNqoQQVDrxFRx1sZwSfCLLOBT3LVzgkFWkZVeik',
+                          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0aGJtdXN4dGpzdGZ2c3QiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwNzI5NzIyMiwiZXhwIjoyMDIyODczMjIyfQ.QUwDRNqoQQVDrxFRx1sZwSfCLLOBT3LVzgkFWkZVeik',
+                          'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify(formData)
+                      })
+                      if (res.ok) { setFormStatus('sent'); setFormData({ name:'', brand:'', email:'', message:'' }) }
+                      else setFormStatus('error')
+                    } catch { setFormStatus('error') }
+                  }}
+                  className="cta-p"
+                  style={{ justifyContent:'center', marginTop:4, width:'100%', border:'none', opacity: formStatus==='sending' ? 0.7 : 1, cursor: formStatus==='sent' ? 'default' : 'pointer', fontFamily:'inherit' }}>
+                  {formStatus === 'idle' && 'Send message →'}
+                  {formStatus === 'sending' && 'Sending...'}
+                  {formStatus === 'sent' && "✓ Sent! We'll be in touch."}
+                  {formStatus === 'error' && 'Something went wrong. Try again.'}
+                </button>
               </div>
             </div>
             <div style={{ display:'flex', justifyContent:'center', gap: isMobile ? 24 : 'clamp(20px,5vw,48px)', marginTop:44, flexWrap:'wrap' }}>
