@@ -42,7 +42,7 @@ export default function TestSite() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
   const [cursorHover, setCursorHover] = useState(false)
   const [activeService, setActiveService] = useState<number | null>(null)
-  const [formData, setFormData] = useState({ name:'', brand:'', email:'', message:'' })
+  const [formData, setFormData] = useState({ name:'', brand:'', email:'', phone:'', message:'' })
   const [formStatus, setFormStatus] = useState<'idle'|'sending'|'sent'|'error'>('idle')
   const [isMobile, setIsMobile] = useState(false)
   const [scrollY, setScrollY] = useState(0)
@@ -1034,13 +1034,17 @@ export default function TestSite() {
                   <input type="email" placeholder="you@brand.com" value={formData.email} onChange={e => setFormData(p => ({...p, email:e.target.value}))} />
                 </div>
                 <div>
+                  <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Phone number <span style={{ color:'#ff0080' }}>*</span></label>
+                  <input type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={e => setFormData(p => ({...p, phone:e.target.value}))} />
+                </div>
+                <div>
                   <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>What are you looking for?</label>
                   <textarea placeholder="Tell us about your brand, your current challenges, and what growth means to you…" value={formData.message} onChange={e => setFormData(p => ({...p, message:e.target.value}))} />
                 </div>
                 <button
                   disabled={formStatus === 'sending' || formStatus === 'sent'}
                   onClick={async () => {
-                    if (!formData.name || !formData.email) return
+                    if (!formData.name || !formData.email || !formData.phone) return
                     setFormStatus('sending')
                     try {
                       const res = await fetch('https://agrcthbmusxtjstfvst.supabase.co/rest/v1/leads', {
@@ -1053,7 +1057,7 @@ export default function TestSite() {
                         },
                         body: JSON.stringify(formData)
                       })
-                      if (res.ok) { setFormStatus('sent'); setFormData({ name:'', brand:'', email:'', message:'' }) }
+                      if (res.ok) { setFormStatus('sent'); setFormData({ name:'', brand:'', email:'', phone:'', message:'' }) }
                       else setFormStatus('error')
                     } catch { setFormStatus('error') }
                   }}
