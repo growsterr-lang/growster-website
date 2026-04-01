@@ -676,9 +676,9 @@ export default function TestSite() {
               </div>
               <p style={{ fontSize:14, color:'rgba(255,255,255,0.38)', maxWidth:280, lineHeight:1.75, fontWeight:400 }}>Everything you need to go from zero to a brand people actually talk about.</p>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(260px, 1fr))', gap: isMobile ? 12 : 14 }}>
+            <div style={{ display: isMobile ? 'flex' : 'grid', gridTemplateColumns:'repeat(auto-fit, minmax(260px, 1fr))', gap: isMobile ? 12 : 14, overflowX: isMobile ? 'auto' : 'visible', scrollSnapType: isMobile ? 'x mandatory' : 'none', paddingBottom: isMobile ? 12 : 0, scrollbarWidth:'none' }}>
               {SERVICES.map((s, i) => (
-                <div key={i} className="scard interactive-card" onMouseEnter={() => setActiveService(i)} onMouseLeave={() => setActiveService(null)}>
+                <div key={i} className="scard interactive-card" onMouseEnter={() => setActiveService(i)} onMouseLeave={() => setActiveService(null)} style={{ minWidth: isMobile ? '75vw' : 'auto', scrollSnapAlign: isMobile ? 'start' : 'none' } as any}>
                   <div style={{ position:'absolute', inset:0, borderRadius:26, background:`radial-gradient(ellipse at 0% 0%, ${s.color}10, transparent 60%)`, opacity: activeService===i ? 1 : 0, transition:'opacity 0.4s' }} />
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:22 }}>
                     <div style={{ width:54, height:54, borderRadius:16, background:s.accent, border:`1px solid ${s.color}30`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:24, transition:'transform 0.35s', transform: activeService===i ? 'scale(1.12) rotate(-6deg)' : 'scale(1)' }}>{s.icon}</div>
@@ -942,7 +942,7 @@ export default function TestSite() {
                 { emoji:'🎨', title:'Creative that converts', desc:"Viral isn't the goal. Sales is. We make content that looks incredible and actually moves product.", color:'#10b981' },
                 { emoji:'🤝', title:'True partnership', desc:"A dedicated team that knows your brand inside out. We're as invested in your growth as you are.", color:'#ec4899' },
               ].map((item, i) => (
-                <div key={i} className="scard">
+                <div key={i} className="scard" style={{ minWidth: isMobile ? '78vw' : 'auto', scrollSnapAlign: isMobile ? 'start' : 'none' }}>
                   <div style={{ position:'absolute', inset:0, borderRadius:26, background:`radial-gradient(ellipse at 0% 0%, ${item.color}08, transparent 60%)` }} />
                   <div style={{ fontSize:30, marginBottom:16 }}>{item.emoji}</div>
                   <h3 style={{ fontSize:18, fontWeight:800, marginBottom:10 }}>{item.title}</h3>
