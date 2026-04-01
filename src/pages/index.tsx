@@ -933,7 +933,7 @@ export default function TestSite() {
               <div className="pill">Why Growster</div>
               <h2 className="big">Not an agency.<br /><span className="brand-grad">A growth partner.</span></h2>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:14 }}>
+            <div style={{ display: isMobile ? 'flex' : 'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap: isMobile ? 12 : 14, overflowX: isMobile ? 'auto' : 'visible', scrollSnapType: isMobile ? 'x mandatory' : 'none', paddingBottom: isMobile ? 12 : 0, WebkitOverflowScrolling:'touch' }}>
               {[
                 { emoji:'🧠', title:'Strategy-first thinking', desc:"We don't post content. We build systems. Every piece has a job — reach, convert, retain.", color:'#ff0080' },
                 { emoji:'🏭', title:'In-house production', desc:'No outsourcing. Directors, editors, and strategists all under one roof for faster, sharper output.', color:'#0050ff' },
@@ -942,7 +942,7 @@ export default function TestSite() {
                 { emoji:'🎨', title:'Creative that converts', desc:"Viral isn't the goal. Sales is. We make content that looks incredible and actually moves product.", color:'#10b981' },
                 { emoji:'🤝', title:'True partnership', desc:"A dedicated team that knows your brand inside out. We're as invested in your growth as you are.", color:'#ec4899' },
               ].map((item, i) => (
-                <div key={i} className="scard" style={{ minWidth: isMobile ? '78vw' : 'auto', scrollSnapAlign: isMobile ? 'start' : 'none' }}>
+                <div key={i} className="scard" style={{ minWidth: isMobile ? '78vw' : 'auto', scrollSnapAlign: isMobile ? 'start' : 'none', flexShrink: 0 }}>
                   <div style={{ position:'absolute', inset:0, borderRadius:26, background:`radial-gradient(ellipse at 0% 0%, ${item.color}08, transparent 60%)` }} />
                   <div style={{ fontSize:30, marginBottom:16 }}>{item.emoji}</div>
                   <h3 style={{ fontSize:18, fontWeight:800, marginBottom:10 }}>{item.title}</h3>
