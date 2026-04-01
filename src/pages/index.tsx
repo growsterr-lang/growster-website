@@ -1038,10 +1038,7 @@ export default function TestSite() {
                   <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Phone</label>
                   <input type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={e => setFormData(p => ({...p, phone:e.target.value}))} />
                 </div>
-                <div>
-                  <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>Phone number <span style={{ color:'#ff0080' }}>*</span></label>
-                  <input type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={e => setFormData(p => ({...p, phone:e.target.value}))} />
-                </div>
+                
                 <div>
                   <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.32)', marginBottom:5, textTransform:'uppercase', letterSpacing:'0.12em' }}>What are you looking for?</label>
                   <textarea placeholder="Tell us about your brand, your current challenges, and what growth means to you…" value={formData.message} onChange={e => setFormData(p => ({...p, message:e.target.value}))} />
