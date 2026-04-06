@@ -208,6 +208,17 @@ export default function TestSite() {
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; background: #050508; color: #fff; overflow-x: hidden; cursor: none; }
         @media (max-width: 768px) {
+  /* Bigger tap targets */
+  button, a { min-height: 44px; }
+  /* Prevent horizontal overflow */
+  section { overflow-x: hidden; }
+  /* Better font sizes */
+  .big { font-size: clamp(36px, 10vw, 56px) !important; }
+  /* Nav items smaller */
+  .nav-item { font-size: 12px !important; padding: 6px 10px !important; }
+  /* Hide scrollbar on horizontal scrollers */
+  ::-webkit-scrollbar { display: none; }
+
           body { cursor: auto; }
           .cursor, .cursor-dot { display: none; }
           .desktop-nav { display: none !important; }
