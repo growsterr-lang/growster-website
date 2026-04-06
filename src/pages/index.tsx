@@ -220,6 +220,17 @@ export default function TestSite() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; background: #050508; color: #fff; overflow-x: hidden; cursor: none; }
+          @keyframes mobileSlideUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+          @keyframes mobilePulse { 0%,100% { opacity:0.85; } 50% { opacity:1; } }
+          @media (max-width:768px) {
+            .hero-line-1 { animation: mobileSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+            .hero-line-2 { animation: mobileSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
+            .hero-cta   { animation: mobileSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+            .brand-grad { animation: mobilePulse 3s ease infinite; }
+            .scard:active { transform: scale(0.97) !important; box-shadow: 0 0 0 2px rgba(255,0,128,0.3) !important; }
+            .cta-p:active { transform: scale(0.95) !important; }
+            .mag-btn:active { transform: scale(0.95) !important; }
+          }
         @media (max-width: 768px) {
   /* Bigger tap targets */
   button, a { min-height: 44px; }
@@ -597,6 +608,10 @@ export default function TestSite() {
         }
       `}</style>
 
+      {/* Mobile scroll progress */}
+      {isMobile && (
+        <div style={{ position:'fixed', top:0, left:0, zIndex:200, height:3, background:'linear-gradient(90deg,#ff0080,#0050ff)', width:`${Math.min((scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1)) * 100, 100)}%`, transition:'width 0.1s linear', pointerEvents:'none', borderRadius:'0 99px 99px 0' }} />
+      )}
       {/* Cursor */}
       <div className={`cursor${cursorHover ? ' hover' : ''}`} style={{ transform: `translate(${cursorPos.x - 19}px, ${cursorPos.y - 19}px)` }} />
       <div className="cursor-dot" style={{ transform: `translate(${targetCursor.current.x - 2.5}px, ${targetCursor.current.y - 2.5}px)` }} />
@@ -655,8 +670,8 @@ export default function TestSite() {
             <span style={{ width:6, height:6, borderRadius:'50%', background:'#ff0080', display:'inline-block', animation:'glow 2s ease-in-out infinite' }} />
             Growth Marketing Company
           </div>
-          <h1 className="big animate-2 text-reveal delay-1" style={{ maxWidth:880, margin:'0 auto 6px', transform:`translateY(${scrollY * 0.15}px)`, transition:'transform 0.1s linear' }}><span>We don't manage brands.</span></h1>
-          <h1 className="big brand-grad animate-3 text-reveal delay-2" style={{ maxWidth:880, margin:'0 auto 24px', transform:`translateY(${scrollY * 0.1}px)`, transition:'transform 0.1s linear' }}><span>We grow them.</span></h1>
+          <h1 className="big animate-2 text-reveal delay-1 hero-line-1" style={{ maxWidth:880, margin:'0 auto 6px', transform:`translateY(${scrollY * 0.15}px)`, transition:'transform 0.1s linear' }}><span>We don't manage brands.</span></h1>
+          <h1 className="big brand-grad animate-3 text-reveal delay-2 hero-line-2" style={{ maxWidth:880, margin:'0 auto 24px', transform:`translateY(${scrollY * 0.1}px)`, transition:'transform 0.1s linear' }}><span>We grow them.</span></h1>
           <div className="animate-4" style={{ margin:'0 auto 36px', maxWidth: isMobile ? '100%' : 720 }}>
             <p style={{ fontSize: isMobile ? 15 : 17, color:'rgba(255,255,255,0.78)', maxWidth: isMobile ? '100%' : 640, margin:'0 auto 12px', lineHeight:1.8, fontWeight:500 }}>
               Performance creative for brands that are already spending — and want to scale harder.
@@ -665,7 +680,7 @@ export default function TestSite() {
               Strategy + production + paid media under one roof. Built for D2C, fashion, hospitality, and consumer brands.
             </p>
           </div>
-          <div className="cta-row animate-5 hero-cta" style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap:12, alignItems:'center', justifyContent:'center', marginBottom: isMobile ? 48 : 80 }}>
+          <div className="cta-row hero-cta animate-5 hero-cta" style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap:12, alignItems:'center', justifyContent:'center', marginBottom: isMobile ? 48 : 80 }}>
             <a href="mailto:work@growster.in" className="cta-p mag-btn">Start growing →</a>
             <a href="#work" className="cta-g mag-btn">See our work</a>
           </div>
@@ -983,44 +998,7 @@ export default function TestSite() {
         <div className="divider" />
 
         {/* INSTAGRAM */}
-        <section data-reveal style={{ padding:'120px 24px' }}>
-          <div style={{ maxWidth:1140, margin:'0 auto' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:44, flexWrap:'wrap', gap:20 }}>
-              <div>
-                <div className="pill">@growster.in</div>
-                <h2 className="big" style={{ fontSize:'clamp(26px,3.8vw,50px)' }}>We live on your feed.<br /><span style={{ color:'rgba(255,255,255,0.28)' }}>Follow along.</span></h2>
-              </div>
-              <a href="https://instagram.com/growster.in" target="_blank" rel="noreferrer" className="cta-g" style={{ flexShrink:0 }}>Follow @growster.in ↗</a>
-            </div>
-            <div style={{ display:'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: isMobile ? 8 : 10 }}>
-              {[
-                { bg:'linear-gradient(135deg, #ff0080 0%, #ff6b35 100%)', icon:'⚡', label:'Performance Marketing', sub:'Results that speak' },
-                { bg:'linear-gradient(135deg, #0050ff 0%, #00c6ff 100%)', icon:'📱', label:'Social Media', sub:'Content strategy' },
-                { bg:'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)', icon:'🎬', label:'Ad Films', sub:'Behind the lens' },
-                { bg:'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)', icon:'📈', label:'Brand Growth', sub:'0 to scale' },
-                { bg:'linear-gradient(135deg, #10b981 0%, #0050ff 100%)', icon:'🎨', label:'Creative Content', sub:'3000+ creatives' },
-                { bg:'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', icon:'🐹', label:'The Team', sub:'Meet Growster' },
-              ].map((card, i) => (
-                <a key={i} href="https://instagram.com/growster.in" target="_blank" rel="noreferrer" className="igcard interactive-card" data-hover style={{ textDecoration:'none' }}>
-                  <div className="igcard-inner" style={{ background:card.bg }}>
-                    <div style={{ fontSize:'clamp(28px,4vw,46px)', marginBottom:10 }}>{card.icon}</div>
-                    <div style={{ fontSize:'clamp(12px,1.4vw,15px)', fontWeight:800, textAlign:'center', lineHeight:1.25 }}>{card.label}</div>
-                    <div style={{ fontSize:11, color:'rgba(255,255,255,0.6)', marginTop:5, fontWeight:500 }}>{card.sub}</div>
-                  </div>
-                  <div className="igcard-overlay">
-                    <span style={{ fontSize:12, fontWeight:600, display:'flex', alignItems:'center', gap:6 }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                      View on Instagram
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-            <div style={{ textAlign:'center', marginTop:28 }}>
-              <a href="https://instagram.com/growster.in" target="_blank" rel="noreferrer" className="cta-g">See everything @growster.in ↗</a>
-            </div>
-          </div>
-        </section>
+        
 
         <div className="divider" />
 
