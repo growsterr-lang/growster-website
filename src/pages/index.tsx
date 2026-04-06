@@ -139,6 +139,18 @@ export default function TestSite() {
     }
     attachHover()
     window.addEventListener('mousemove', onMove)
+
+    // Mobile tap ripple
+    const onTouchTap = (e: TouchEvent) => {
+      if (!isMobile) return
+      const touch = e.touches[0]
+      const ripple = document.createElement('div')
+      ripple.style.cssText = `position:fixed;left:${touch.clientX-30}px;top:${touch.clientY-30}px;width:60px;height:60px;border-radius:50%;background:rgba(255,0,128,0.25);pointer-events:none;z-index:9999;transform:scale(0);transition:transform 0.5s ease,opacity 0.5s ease;opacity:1`
+      document.body.appendChild(ripple)
+      requestAnimationFrame(() => { ripple.style.transform='scale(3)'; ripple.style.opacity='0' })
+      setTimeout(() => ripple.remove(), 600)
+    }
+    window.addEventListener('touchstart', onTouchTap, { passive: true })
     // Counter animation on scroll
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && !counted) {
@@ -179,6 +191,7 @@ export default function TestSite() {
 
     return () => {
       window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('touchstart', onTouchTap)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', checkMobile)
@@ -652,7 +665,7 @@ export default function TestSite() {
               Strategy + production + paid media under one roof. Built for D2C, fashion, hospitality, and consumer brands.
             </p>
           </div>
-          <div className="cta-row animate-5" style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap:12, alignItems:'center', justifyContent:'center', marginBottom: isMobile ? 48 : 80 }}>
+          <div className="cta-row animate-5 hero-cta" style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap:12, alignItems:'center', justifyContent:'center', marginBottom: isMobile ? 48 : 80 }}>
             <a href="mailto:work@growster.in" className="cta-p mag-btn">Start growing →</a>
             <a href="#work" className="cta-g mag-btn">See our work</a>
           </div>
