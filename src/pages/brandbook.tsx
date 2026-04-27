@@ -93,7 +93,7 @@ border: 1px solid rgba(255,255,255,0.1)
 border-radius: 99px
 color: rgba(255,255,255,0.7)
 hover: background lightens, border brightens`,
-      preview: <button style={{ padding: '10px 20px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Montserrat' }}>Learn more</button>
+      preview: <button style={{ padding: '10px 20px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.1)', background: '#151520', color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Montserrat' }}>Learn more</button>
     },
     {
       name: 'Glass Card',
@@ -102,7 +102,7 @@ border: 1px solid rgba(255,255,255,0.08)
 border-radius: 20px
 backdrop-filter: blur(20px)
 hover: border brightens to 0.15`,
-      preview: <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '1.25rem', backdropFilter: 'blur(20px)', fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Glass card component</div>
+      preview: <div style={{ background: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '1.25rem', backdropFilter: 'blur(20px)', fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Glass card component</div>
     },
     {
       name: 'Pill Label',
@@ -134,7 +134,7 @@ border-radius: 12px
 padding: 10px 14px
 font-size: 14px
 focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
-      preview: <input placeholder="Type something..." style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '10px 14px', fontSize: 14, color: '#fff', fontFamily: 'Montserrat', outline: 'none', width: '100%' }} />
+      preview: <input placeholder="Type something..." style={{ background: '#151520', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '10px 14px', fontSize: 14, color: '#fff', fontFamily: 'Montserrat', outline: 'none', width: '100%' }} />
     },
   ]
 
@@ -205,14 +205,14 @@ focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
 
   const s: any = {
     nav: { background: 'rgba(5,5,8,0.9)', borderBottom: '1px solid rgba(255,255,255,0.07)', position: 'sticky' as const, top: 0, zIndex: 50, backdropFilter: 'blur(20px)', padding: '0 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 },
-    sidebar: { position: 'fixed' as const, top: 56, left: 0, width: 220, height: 'calc(100vh - 56px)', background: 'rgba(255,255,255,0.02)', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '1.5rem 1rem', overflowY: 'auto' as const },
+    sidebar: { position: 'fixed' as const, top: 56, left: 0, width: 220, height: 'calc(100vh - 56px)', background: '#0d0d14', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '1.5rem 1rem', overflowY: 'auto' as const },
     main: { marginLeft: 220, padding: '2.5rem 2rem', maxWidth: 960, minHeight: '100vh' },
     section: { marginBottom: '4rem' },
     h2: { fontSize: 28, fontWeight: 800, letterSpacing: '-0.5px', marginBottom: 8, color: '#fff' },
     h3: { fontSize: 16, fontWeight: 700, marginBottom: 12, color: 'rgba(255,255,255,0.8)' },
     label: { fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: '#ff0080', marginBottom: 16, display: 'block' },
-    card: { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '1.25rem' },
-    code: { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '1rem', fontSize: 12, color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace', whiteSpace: 'pre-wrap' as const, lineHeight: 1.7 },
+    card: { background: '#111118', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '1.25rem' },
+    code: { background: '#151520', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '1rem', fontSize: 12, color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace', whiteSpace: 'pre-wrap' as const, lineHeight: 1.7 },
   }
 
   return (
@@ -229,7 +229,10 @@ focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
           @media print {
             .sidebar, nav { display: none !important; }
             .main { margin-left: 0 !important; }
-            body { background: #050508 !important; color: #fff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            html, body { background: #050508 !important; color: #fff !important; }
+            .card-inner, [style*='background'] { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            div, section, span, td, th, p { background-color: inherit !important; }
           }
           @media (max-width: 768px) {
             .sidebar { display: none; }
@@ -245,7 +248,7 @@ focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
           <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Brand Book</span>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={() => window.print()} style={{ padding: '8px 18px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>↓ Export PDF</button>
+          <button onClick={() => window.print()} style={{ padding: '8px 18px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.1)', background: '#151520', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>↓ Export PDF</button>
           <a href="/" style={{ padding: '8px 18px', borderRadius: 99, border: 'none', background: 'linear-gradient(135deg,#ff0080,#cc0055)', color: '#fff', fontSize: 12, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>← Site</a>
         </div>
       </nav>
@@ -333,7 +336,7 @@ focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
             <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Primary Typeface</div>
             <div style={{ fontSize: 36, fontWeight: 900, letterSpacing: '-1px', marginBottom: 4 }}>Montserrat</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>Google Fonts — weights: 300, 400, 500, 600, 700, 800, 900</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace', background: 'rgba(255,255,255,0.04)', padding: '8px 12px', borderRadius: 8 }}>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace', background: '#111118', padding: '8px 12px', borderRadius: 8 }}>
               @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap')
             </div>
           </div>
@@ -395,7 +398,7 @@ focus: border rgba(255,0,128,0.5), glow rgba(255,0,128,0.1)`,
                   </div>
                   <div>
                     <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Preview</div>
-                    <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ background: '#0d0d14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {c.preview}
                     </div>
                   </div>
