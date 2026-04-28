@@ -984,20 +984,27 @@ export default function TestSite() {
                 }}
               >
                 <div style={{
-                  minHeight: isMobile ? 240 : 340,
-                  background:'linear-gradient(135deg, rgba(255,0,128,0.18), rgba(0,80,255,0.18))',
+                  minHeight: isMobile ? 400 : 540,
+                  position:'relative',
+                  background:'#000',
                   display:'flex',
                   alignItems:'center',
                   justifyContent:'center',
-                  position:'relative'
                 }}>
+                  <iframe
+                    src="https://www.youtube.com/embed/DrMFMURZbBM?autoplay=1&mute=1&loop=1&playlist=DrMFMURZbBM&controls=0&modestbranding=1&playsinline=1&rel=0"
+                    title="Growster Featured Reel"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    style={{ position:'absolute', top:0, left:0, width:'100%', height:'100%', border:'none', objectFit:'cover' }}
+                  />
                   <div className="play-pulse" style={{
                     width:88,
                     height:88,
                     borderRadius:'50%',
                     background:'rgba(255,255,255,0.12)',
                     border:'1px solid rgba(255,255,255,0.16)',
-                    display:'flex',
+                    display:'none',
                     alignItems:'center',
                     justifyContent:'center',
                     backdropFilter:'blur(14px)',
@@ -1187,6 +1194,80 @@ export default function TestSite() {
         </footer>
 
       </div>
+    <>
+      {/* Floating hamster */}
+      <style>{`
+        @keyframes hamsterBob {
+          0%, 100% { transform: translateY(0) rotate(-3deg); }
+          50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        @keyframes hamsterPeek {
+          0% { transform: translateX(80px); }
+          100% { transform: translateX(0); }
+        }
+        .hamster-float {
+          animation: hamsterBob 2.5s ease-in-out infinite, hamsterPeek 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        .hamster-float:hover { transform: scale(1.1) !important; }
+        .hamster-tooltip {
+          opacity: 0;
+          transform: translateX(8px);
+          transition: all 0.2s;
+          pointer-events: none;
+        }
+        .hamster-wrap:hover .hamster-tooltip {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      `}</style>
+      <div
+        className="hamster-wrap"
+        onClick={() => {
+          const el = document.getElementById('contact')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }}
+        style={{
+          position: 'fixed',
+          bottom: 32,
+          right: 24,
+          zIndex: 999,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          cursor: 'pointer',
+        }}>
+        <div className="hamster-tooltip"
+          style={{
+            background: 'rgba(15,15,26,0.95)',
+            border: '1px solid rgba(255,0,128,0.3)',
+            borderRadius: 12,
+            padding: '8px 14px',
+            fontSize: 13,
+            fontWeight: 700,
+            color: '#fff',
+            whiteSpace: 'nowrap',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 8px 32px rgba(255,0,128,0.15)',
+          }}>
+          🐾 let's talk →
+        </div>
+        <div className="hamster-float"
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #ff0080, #0050ff)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 26,
+            boxShadow: '0 8px 32px rgba(255,0,128,0.35)',
+            flexShrink: 0,
+          }}>
+          🐹
+        </div>
+      </div>
+    </>
     </>
   )
 }
