@@ -121,7 +121,7 @@ export default function Portfolio() {
 
       {/* Nav */}
       <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:50, padding:'0 2rem', height:56, display:'flex', alignItems:'center', justifyContent:'space-between', background:scrolled?'rgba(5,5,8,0.95)':'transparent', backdropFilter:scrolled?'blur(20px)':'none', borderBottom:scrolled?'1px solid rgba(255,255,255,0.07)':'none', transition:'all 0.3s' }}>
-        <a href="/" style={{ fontSize:15, fontWeight:900, color:'#fff', textDecoration:'none', letterSpacing:'-0.5px' }}>Growster<span style={{ color:'#ff0080' }}>.</span></a>
+        <a href="/" style={{ textDecoration:'none', display:'flex', alignItems:'center' }}><img src="/Growster-Favicon.png" alt="Growster" style={{ height:28, width:28, objectFit:'contain', marginRight:8 }} /><span style={{ fontSize:15, fontWeight:900, color:'#fff', letterSpacing:'-0.5px' }}>Growster<span style={{ color:'#ff0080' }}>.</span></span></a>
         <div style={{ display:'flex', gap:12, alignItems:'center' }}>
           <a href="/" style={{ fontSize:12, color:'rgba(255,255,255,0.5)', textDecoration:'none', fontWeight:600 }}>← Back</a>
           <a href="mailto:harshit@growster.in" style={{ padding:'8px 18px', borderRadius:99, border:'none', background:'linear-gradient(135deg,#ff0080,#cc0055)', color:'#fff', fontSize:12, fontWeight:700, textDecoration:'none' }}>Get in touch →</a>
