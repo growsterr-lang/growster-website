@@ -39,6 +39,12 @@
       "namedRegex": "^/brandbook(?:/)?$"
     },
     {
+      "page": "/portfolio",
+      "regex": "^/portfolio(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/portfolio(?:/)?$"
+    },
+    {
       "page": "/story",
       "regex": "^/story(?:/)?$",
       "routeKeys": {},

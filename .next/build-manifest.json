@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/frzG7hyrel55ouliQ2UJy/_buildManifest.js",
-    "static/frzG7hyrel55ouliQ2UJy/_ssgManifest.js"
+    "static/OOGGJzXO6Jua71w2a_dG0/_buildManifest.js",
+    "static/OOGGJzXO6Jua71w2a_dG0/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "rootMainFilesTree": {},
@@ -40,6 +40,12 @@
       "static/chunks/framework-a6e0b7e30f98059a.js",
       "static/chunks/main-7b20253d3ae031d9.js",
       "static/chunks/pages/brandbook-170ab6574d76387f.js"
+    ],
+    "/portfolio": [
+      "static/chunks/webpack-b4405ac1b2b64b0f.js",
+      "static/chunks/framework-a6e0b7e30f98059a.js",
+      "static/chunks/main-7b20253d3ae031d9.js",
+      "static/chunks/pages/portfolio-606ef2ded33961d6.js"
     ],
     "/story": [
       "static/chunks/webpack-b4405ac1b2b64b0f.js",
