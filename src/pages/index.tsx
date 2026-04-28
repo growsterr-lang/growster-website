@@ -534,6 +534,10 @@ export default function TestSite() {
 
 
         /* Team scroller */
+        @keyframes fadeUp {
+          from { transform: translateY(40px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
         .team-scroll {
           display: flex;
           gap: 20px;
@@ -830,6 +834,75 @@ export default function TestSite() {
               </div>
             </div>
 
+
+            {/* BRAND FILMS */}
+            <div style={{ marginBottom: isMobile ? 60 : 120 }}>
+              <div style={{ textAlign: 'center', marginBottom: 48 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#ff0080', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>Our Work</div>
+                <h2 className="big" style={{ fontSize: 'clamp(22px,3vw,42px)', marginBottom: 16 }}>
+                  Here's 2 mins of brand films<br />
+                  <span className="brand-grad">we've done recently.</span>
+                </h2>
+              </div>
+
+              {/* Videos */}
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20, marginBottom: 40 }}>
+                {[
+                  { id: 'eZdbXBqgqn4', title: 'We Are MORE Than That' },
+                  { id: 'rxr6q2wLbx8', title: 'The Devil Wears Virgio' },
+                ].map((video, i) => (
+                  <div key={video.id}
+                    style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: '#000',
+                      boxShadow: '0 32px 80px rgba(0,0,0,0.5)',
+                      transform: 'translateY(40px)', opacity: 0,
+                      animation: `fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.15}s forwards` }}>
+                    <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+                        title={video.title}
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                      />
+                      {/* Unmute button */}
+                      <button
+                        onClick={e => {
+                          const iframe = e.currentTarget.previousElementSibling as HTMLIFrameElement
+                          const btn = e.currentTarget
+                          // Toggle mute via postMessage
+                          if (btn.getAttribute('data-muted') === 'true') {
+                            iframe.contentWindow?.postMessage('{"event":"command","func":"unMute","args":""}', '*')
+                            btn.setAttribute('data-muted', 'false')
+                            btn.textContent = '🔇'
+                          } else {
+                            iframe.contentWindow?.postMessage('{"event":"command","func":"mute","args":""}', '*')
+                            btn.setAttribute('data-muted', 'true')
+                            btn.textContent = '🔊'
+                          }
+                        }}
+                        data-muted="true"
+                        style={{ position: 'absolute', bottom: 16, right: 16, width: 40, height: 40, borderRadius: '50%', border: 'none', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', color: '#fff', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                        🔊
+                      </button>
+                    </div>
+                    <div style={{ padding: '12px 16px', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)' }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{video.title}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Want to see more of what we've done?</p>
+                <a href="https://instagram.com/growster.in" target="_blank" rel="noreferrer"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s' }}
+                  onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.1)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.3)' }}
+                  onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.15)' }}>
+                  <span style={{ fontSize: 18 }}>📸</span> @growster.in
+                </a>
+              </div>
+            </div>
 
             {/* TEAM SCROLLER */}
             <div style={{ marginBottom: isMobile ? 18 : 24 }}>

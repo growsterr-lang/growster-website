@@ -3,7 +3,7 @@
   "/brandbook": "pages/brandbook.html",
   "/": "pages/index.html",
   "/story": "pages/story.html",
-  "/_error": "pages/_error.js",
   "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js"
 }
