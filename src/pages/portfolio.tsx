@@ -62,6 +62,7 @@ export default function Portfolio() {
   const [wheelAngle, setWheelAngle] = useState(0)
   const [lightPos, setLightPos] = useState({ x: 50, y: 50 })
   const [clock, setClock] = useState('')
+  const [macCursor, setMacCursor] = useState(false)
   const targetCursor = useRef({ x: -200, y: -200 })
   const angleRef = useRef(0)
   const rafRef = useRef<number>(0)
@@ -223,15 +224,29 @@ export default function Portfolio() {
           .win-pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,0.07);color:#555;text-transform:uppercase;letter-spacing:0.05em}
 
           @media(max-width:768px){body{cursor:auto}.ham-cursor{display:none}a,button{cursor:pointer}.win-body{grid-template-columns:1fr}.win-thumb{height:180px}.folders-col{flex-direction:row;left:50%;transform:translateX(-50%);top:auto;bottom:70px;gap:10px}}
+
+          /* Retro Mac cursor */
+          .retro-cursor {
+            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+            width: 20px; height: 24px;
+          }
+          .retro-cursor svg { width: 100%; height: 100%; }
         `}</style>
       </Head>
 
-      {/* Hamster cursor */}
-      {!isMobile && (
+      {/* Cursor */}
+      {!isMobile && !macCursor && (
         <div className={`ham-cursor${cursorHover?' hover':''}`} style={{ transform:`translate(${cursorPos.x-22}px,${cursorPos.y-22}px)` }}>
           <div className="ham-wheel" style={{ transform:`rotate(${wheelAngle}deg)` }}>
             <img src="/Growster-Favicon.png" alt="" />
           </div>
+        </div>
+      )}
+      {!isMobile && macCursor && (
+        <div className="retro-cursor" style={{ transform:`translate(${cursorPos.x}px,${cursorPos.y}px)` }}>
+          <svg viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0L0 15L3 12L5 17L7 16L5 11L9 11Z" fill="white" stroke="black" strokeWidth="1" strokeLinejoin="round"/>
+          </svg>
         </div>
       )}
 
@@ -288,7 +303,7 @@ export default function Portfolio() {
           <p style={{ fontSize:13, color:'rgba(255,255,255,0.35)', fontFamily:"'Press Start 2P', monospace" }}>double click a folder to open</p>
         </div>
 
-        <div className="mac-wrap">
+        <div className="mac-wrap" onMouseEnter={() => setMacCursor(true)} onMouseLeave={() => setMacCursor(false)}>
           {/* Menu bar */}
           <div className="menubar">
             <span className="menubar-logo">🐹 Growster OS</span>
