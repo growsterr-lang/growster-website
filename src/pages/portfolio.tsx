@@ -4,48 +4,36 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 const CLIENTS = [
   {
     key: 'snitch', name: 'Snitch', tag: 'Performance Content', color: '#ff0080',
-    folderGrad: 'linear-gradient(180deg,#ff4da6,#cc0055)',
-    tabGrad: 'linear-gradient(180deg,#ff6db8,#ff0080)',
-    border: '#990040',
-    img: '/growster-website/Snitch Thumbnail.png',
-    logo: '/growster-website/Snitch Logo.png',
-    title: '100 Ads a Month.',
+    folderGrad: 'linear-gradient(180deg,#ff4da6,#cc0055)', tabGrad: 'linear-gradient(180deg,#ff6db8,#ff0080)', border: '#990040',
+    img: '/growster-website/Snitch Thumbnail.png', logo: '/growster-website/Snitch Logo.png',
+    title: '100 Ads a Month.', suit: '♠', emoji: '👕',
     desc: "India's fastest growing fashion brand and highest advertising spender in their category came to us with one problem — creative fatigue at scale. We solved it.",
     metrics: [['100','Ads monthly'],['#1','Lowest CPI ever'],['0','Creative fatigue']],
     services: ['Performance Content','UGC Production','Creative Strategy'],
   },
   {
     key: 'zouk', name: 'Zouk', tag: 'Vertical Performance', color: '#f59e0b',
-    folderGrad: 'linear-gradient(180deg,#fcd34d,#d97706)',
-    tabGrad: 'linear-gradient(180deg,#fde68a,#f59e0b)',
-    border: '#b45309',
-    img: '/growster-website/Zouk Thumbnail.png',
-    logo: '/growster-website/Zouk Logo.png',
-    title: '2x Revenue Jump.',
+    folderGrad: 'linear-gradient(180deg,#fcd34d,#d97706)', tabGrad: 'linear-gradient(180deg,#fde68a,#f59e0b)', border: '#b45309',
+    img: '/growster-website/Zouk Thumbnail.png', logo: '/growster-website/Zouk Logo.png',
+    title: '2x Revenue Jump.', suit: '♦', emoji: '👜',
     desc: 'A high-spending brand that came to us for vertical performance assets that actually convert. We delivered a 2x jump in revenue through precision creative and media strategy.',
     metrics: [['2x','Revenue jump'],['↑','ROAS growth'],['100%','Vertical assets']],
     services: ['Performance Content','Vertical Assets','Media Buying'],
   },
   {
     key: 'rwdy', name: 'RWDY', tag: 'Full Digital Mandate', color: '#0050ff',
-    folderGrad: 'linear-gradient(180deg,#60a5fa,#1d4ed8)',
-    tabGrad: 'linear-gradient(180deg,#93c5fd,#0050ff)',
-    border: '#1e3a8a',
-    img: '/growster-website/RWDY Thumbnail.png',
-    logo: '/growster-website/RWDY logo.png',
-    title: '5x Growth in 2 Years.',
+    folderGrad: 'linear-gradient(180deg,#60a5fa,#1d4ed8)', tabGrad: 'linear-gradient(180deg,#93c5fd,#0050ff)', border: '#1e3a8a',
+    img: '/growster-website/RWDY Thumbnail.png', logo: '/growster-website/RWDY logo.png',
+    title: '5x Growth in 2 Years.', suit: '♣', emoji: '👔',
     desc: "Vijay Deverakonda's fashion brand. We handled all digital and revenue mandates — strategy, content, performance, social — and grew the company 5x in 2 years.",
     metrics: [['5x','Growth in 2yr'],['100%','Full mandate'],['∞','Brand reach']],
     services: ['Full Mandate','Performance Marketing','Social Media'],
   },
   {
     key: 'virgio', name: 'Virgio', tag: 'Brand Films', color: '#8b5cf6',
-    folderGrad: 'linear-gradient(180deg,#c4b5fd,#7c3aed)',
-    tabGrad: 'linear-gradient(180deg,#ddd6fe,#8b5cf6)',
-    border: '#5b21b6',
-    img: '/growster-website/Virgio Thumbnail.png',
-    logo: '/growster-website/Virgio Thumbnail.png',
-    title: 'Brand Films That Perform.',
+    folderGrad: 'linear-gradient(180deg,#c4b5fd,#7c3aed)', tabGrad: 'linear-gradient(180deg,#ddd6fe,#8b5cf6)', border: '#5b21b6',
+    img: '/growster-website/Virgio Thumbnail.png', logo: '/growster-website/Virgio Thumbnail.png',
+    title: 'Brand Films That Perform.', suit: '♥', emoji: '🎬',
     desc: 'A global fashion powerhouse led by the ex-CEO of Myntra. We produced brand films and performance assets that moved the needle on both brand equity and acquisition cost.',
     metrics: [['30%','CAC decrease'],['60%','Brand lift D30'],['0','Freq. fatigue']],
     services: ['Brand Films','Performance Marketing','Creative Production'],
@@ -55,79 +43,74 @@ const CLIENTS = [
 export default function Portfolio() {
   const [open, setOpen] = useState<string|null>(null)
   const [selected, setSelected] = useState<string|null>(null)
+  const [fullscreen, setFullscreen] = useState<string|null>(null)
+  const [flipped, setFlipped] = useState<Record<string,boolean>>({})
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [cursorPos, setCursorPos] = useState({ x: -200, y: -200 })
+  const [cursorPos, setCursorPos] = useState({ x:-200, y:-200 })
   const [cursorHover, setCursorHover] = useState(false)
   const [wheelAngle, setWheelAngle] = useState(0)
-  const [lightPos, setLightPos] = useState({ x: 50, y: 50 })
+  const [lightPos, setLightPos] = useState({ x:50, y:50 })
   const [clock, setClock] = useState('')
   const [macCursor, setMacCursor] = useState(false)
-  const targetCursor = useRef({ x: -200, y: -200 })
+  const targetCursor = useRef({ x:-200, y:-200 })
   const angleRef = useRef(0)
   const rafRef = useRef<number>(0)
   const clickTimer = useRef<any>(null)
   const clickCount = useRef(0)
 
   const animateCursor = useCallback(() => {
-    setCursorPos(prev => ({
-      x: prev.x + (targetCursor.current.x - prev.x) * 0.12,
-      y: prev.y + (targetCursor.current.y - prev.y) * 0.12,
-    }))
+    setCursorPos(prev => ({ x:prev.x+(targetCursor.current.x-prev.x)*0.12, y:prev.y+(targetCursor.current.y-prev.y)*0.12 }))
     rafRef.current = requestAnimationFrame(animateCursor)
   }, [])
 
   useEffect(() => {
-    const tick = () => {
-      const n = new Date(), h = n.getHours()%12||12, m = String(n.getMinutes()).padStart(2,'0'), ap = n.getHours()>=12?'PM':'AM'
-      setClock(`${h}:${m} ${ap}`)
-    }
-    tick(); const t = setInterval(tick, 30000)
+    const tick = () => { const n=new Date(),h=n.getHours()%12||12,m=String(n.getMinutes()).padStart(2,'0'),ap=n.getHours()>=12?'PM':'AM'; setClock(`${h}:${m} ${ap}`) }
+    tick(); const t=setInterval(tick,30000)
     const onResize = () => setIsMobile(window.innerWidth < 768)
     onResize(); window.addEventListener('resize', onResize)
     const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    let lx = 0, lt = Date.now()
+    window.addEventListener('scroll', onScroll, { passive:true })
+    let lx=0, lt=Date.now()
     const onMove = (e: MouseEvent) => {
-      targetCursor.current = { x: e.clientX, y: e.clientY }
-      setLightPos({ x: (e.clientX/window.innerWidth)*100, y: (e.clientY/window.innerHeight)*100 })
-      const now = Date.now(), dist = Math.hypot(e.clientX-lx, 0), speed = Math.min(dist/(now-lt||1)*18, 35)
-      angleRef.current += speed; setWheelAngle(angleRef.current)
-      lx = e.clientX; lt = now
+      targetCursor.current = { x:e.clientX, y:e.clientY }
+      setLightPos({ x:(e.clientX/window.innerWidth)*100, y:(e.clientY/window.innerHeight)*100 })
+      const now=Date.now(), speed=Math.min(Math.hypot(e.clientX-lx,0)/(now-lt||1)*18,35)
+      angleRef.current+=speed; setWheelAngle(angleRef.current); lx=e.clientX; lt=now
     }
-    window.addEventListener('mousemove', onMove, { passive: true })
-    const onEnter = () => setCursorHover(true), onLeave = () => setCursorHover(false)
-    document.querySelectorAll('a,button,[data-hover]').forEach(el => { el.addEventListener('mouseenter', onEnter); el.addEventListener('mouseleave', onLeave) })
-    // Magnetic
+    window.addEventListener('mousemove', onMove, { passive:true })
     const onMag = (e: MouseEvent) => {
       document.querySelectorAll('[data-magnet]').forEach(el => {
-        const r = el.getBoundingClientRect(), cx = r.left+r.width/2, cy = r.top+r.height/2
-        const dx = e.clientX-cx, dy = e.clientY-cy, dist = Math.hypot(dx,dy)
-        if (dist < 120) { const p=(1-dist/120)*0.4; (el as HTMLElement).style.transform=`translate(${dx*p}px,${dy*p}px)` }
+        const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,dist=Math.hypot(dx,dy)
+        if(dist<120){const p=(1-dist/120)*0.4;(el as HTMLElement).style.transform=`translate(${dx*p}px,${dy*p}px)`}
         else (el as HTMLElement).style.transform=''
       })
     }
-    window.addEventListener('mousemove', onMag, { passive: true })
+    window.addEventListener('mousemove', onMag, { passive:true })
     rafRef.current = requestAnimationFrame(animateCursor)
-    return () => {
-      clearInterval(t); cancelAnimationFrame(rafRef.current)
-      window.removeEventListener('resize', onResize); window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMag)
-    }
+    return () => { clearInterval(t); cancelAnimationFrame(rafRef.current); window.removeEventListener('resize',onResize); window.removeEventListener('scroll',onScroll); window.removeEventListener('mousemove',onMove); window.removeEventListener('mousemove',onMag) }
   }, [animateCursor])
+
+  // Prevent body scroll when fullscreen open
+  useEffect(() => {
+    document.body.style.overflow = fullscreen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [fullscreen])
 
   const handleFolderClick = (key: string) => {
     clickCount.current += 1
     if (clickCount.current === 1) {
       setSelected(key)
-      clickTimer.current = setTimeout(() => { clickCount.current = 0 }, 350)
+      clickTimer.current = setTimeout(() => { clickCount.current=0 }, 350)
     } else if (clickCount.current === 2) {
-      clearTimeout(clickTimer.current); clickCount.current = 0
-      setOpen(key)
+      clearTimeout(clickTimer.current); clickCount.current=0; setOpen(key)
     }
   }
 
-  const activeClient = CLIENTS.find(c => c.key === open)
+  const flipCard = (key: string) => setFlipped(prev => ({ ...prev, [key]:!prev[key] }))
+
+  const activeClient = CLIENTS.find(c => c.key===open)
+  const fullClient = CLIENTS.find(c => c.key===fullscreen)
 
   return (
     <>
@@ -138,75 +121,63 @@ export default function Portfolio() {
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
           html{scroll-behavior:smooth}
-          body{font-family:'Montserrat',sans-serif;background:#050508;color:#fff;overflow-x:hidden;cursor:none}
-          a,button{cursor:none}
+          body{font-family:'Montserrat',sans-serif;background:#050508;color:#fff;overflow-x:hidden}
+          a,button{font-family:'Montserrat',sans-serif}
           ::-webkit-scrollbar{width:2px}
           ::-webkit-scrollbar-thumb{background:linear-gradient(#ff0080,#0050ff)}
           .grad{background:linear-gradient(135deg,#ff0080,#0050ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
           .pill{display:inline-block;padding:4px 14px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase}
 
-          /* Cursor */
+          @media(min-width:769px){body{cursor:none}a,button{cursor:none}}
+
           .ham-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:44px;height:44px;transition:width 0.2s,height 0.2s}
           .ham-cursor.hover{width:54px;height:54px}
           .ham-wheel{width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,0,128,0.5);display:flex;align-items:center;justify-content:center;background:rgba(5,5,8,0.85);backdrop-filter:blur(4px);box-shadow:0 0 20px rgba(255,0,128,0.2);overflow:hidden}
           .ham-wheel img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+          .retro-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:20px;height:24px}
 
-          /* Animations */
           @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
           @keyframes glow{0%,100%{opacity:0.5}50%{opacity:1}}
-          @keyframes scanline{0%{top:-10%}100%{top:110%}}
+          @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
           .fade-up-0{animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0s both}
           .fade-up-1{animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both}
           .fade-up-2{animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both}
           .mag-btn{transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
 
-          /* Mac */
+          /* Mac desktop */
           .mac-wrap{border-radius:16px;overflow:hidden;border:3px solid #1a1a2e;box-shadow:0 32px 100px rgba(0,0,0,0.7)}
           .menubar{height:24px;background:linear-gradient(180deg,#e8e8e8,#d0d0d0);border-bottom:1px solid #999;display:flex;align-items:center;padding:0 12px;gap:14px}
           .menubar-logo{font-size:12px;font-weight:900;color:#000}
           .menubar-item{font-size:11px;color:#111;font-weight:500}
-          .menubar-right{margin-left:auto;font-size:11px;color:#333;display:flex;gap:10px;align-items:center}
+          .menubar-right{margin-left:auto;font-size:11px;color:#333}
           .desktop{background:#050508;position:relative;overflow:hidden;min-height:520px}
-
-          /* Wallpaper */
           .wallpaper-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;user-select:none;width:90%}
           .wallpaper-title{font-family:'Press Start 2P',monospace;font-size:clamp(12px,2.5vw,28px);color:rgba(255,0,128,0.12);line-height:2;letter-spacing:3px;margin-bottom:20px}
           .wallpaper-sub{font-family:'Press Start 2P',monospace;font-size:clamp(5px,0.9vw,8px);color:rgba(255,255,255,0.07);letter-spacing:2px}
-
-          /* Folders */
           .folders-col{position:absolute;left:20px;top:20px;display:flex;flex-direction:column;gap:18px}
           .folder-item{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:none;width:76px;user-select:none}
-          .folder-item:hover .f-main{filter:brightness(1.2)}
-          .folder-item:hover .f-tab{filter:brightness(1.2)}
           .f-body{width:56px;height:44px;position:relative;transition:transform 0.15s}
           .folder-item:hover .f-body{transform:scale(1.08) translateY(-3px)}
-          .folder-item.selected .f-body{transform:scale(1.05)}
-          .f-tab{position:absolute;top:0;left:4px;width:20px;height:9px;border-radius:3px 3px 0 0;transition:filter 0.15s}
-          .f-main{position:absolute;bottom:0;left:0;right:0;height:37px;border-radius:3px 5px 5px 5px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);transition:filter 0.15s}
-          .f-label{font-size:10px;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.9);text-align:center;line-height:1.3}
-          .folder-item.selected .f-label-inner{background:#0a3eb8;color:#fff;padding:1px 5px;border-radius:2px}
-
-          /* Desktop icons */
+          .f-tab{position:absolute;top:0;left:4px;width:20px;height:9px;border-radius:3px 3px 0 0}
+          .f-main{position:absolute;bottom:0;left:0;right:0;height:37px;border-radius:3px 5px 5px 5px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25)}
+          .f-label{font-size:10px;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.9);text-align:center}
+          .folder-item.selected .f-label-inner{background:#0a3eb8;padding:1px 5px;border-radius:2px}
           .hd-icon{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;align-items:center;gap:4px}
-          .hd-body{width:46px;height:34px;background:linear-gradient(180deg,#e0e0e0,#c0c0c0);border:1px solid #888;border-radius:3px;display:flex;align-items:center;justify-content:center}
-          .hd-slot{width:28px;height:3px;background:#888;border-radius:1px}
-          .icon-lbl{font-size:9px;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,0.9);text-align:center}
           .trash-icon{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;align-items:center;gap:4px}
-          .trash-body{width:38px;height:42px;background:linear-gradient(180deg,#ddd,#bbb);border:1px solid #888;border-radius:0 0 6px 6px;display:flex;align-items:center;justify-content:center}
-          .trash-lines{width:22px;height:26px;background:repeating-linear-gradient(0deg,#ccc,#ccc 2px,transparent 2px,transparent 5px);border:0.5px solid #aaa}
+          .icon-lbl{font-size:9px;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,0.9);text-align:center}
 
           /* Mac window */
-          .mac-win{position:absolute;inset:0;background:#f0f0f0;display:none;flex-direction:column;z-index:50;animation:fadeUp 0.25s cubic-bezier(0.16,1,0.3,1) both}
-          .mac-win.open{display:flex}
+          .mac-win{position:absolute;inset:0;background:#f0f0f0;display:none;flex-direction:column;z-index:50}
+          .mac-win.open{display:flex;animation:fadeUp 0.25s cubic-bezier(0.16,1,0.3,1) both}
           .win-titlebar{height:22px;background:linear-gradient(180deg,#d8d8d8,#b8b8b8);border-bottom:1px solid #888;display:flex;align-items:center;padding:0 10px;gap:7px}
-          .wbtn{width:12px;height:12px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.3);cursor:none;flex-shrink:0;transition:filter 0.15s}
+          .wbtn{width:12px;height:12px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.3);cursor:none;flex-shrink:0}
           .wbtn:hover{filter:brightness(0.85)}
           .wbtn-r{background:#ff5f57}.wbtn-y{background:#febc2e}.wbtn-g{background:#28c840}
           .win-titlebar-name{font-size:11px;font-weight:700;color:#333;margin:0 auto}
           .win-toolbar{height:28px;background:linear-gradient(180deg,#d4d4d4,#b8b8b8);border-bottom:1px solid #999;display:flex;align-items:center;padding:0 10px;gap:6px}
           .win-nav{width:22px;height:18px;background:linear-gradient(180deg,#e8e8e8,#c8c8c8);border:1px solid #888;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#444;cursor:none}
           .win-path-txt{font-size:10px;color:#555;flex:1;padding:0 8px}
-          .win-close-btn{font-size:10px;background:linear-gradient(180deg,#e8e8e8,#c8c8c8);border:1px solid #888;border-radius:3px;padding:2px 12px;cursor:none;color:#222;font-family:'Montserrat',sans-serif;transition:filter 0.15s}
+          .win-close-btn{font-size:10px;background:linear-gradient(180deg,#e8e8e8,#c8c8c8);border:1px solid #888;border-radius:3px;padding:2px 12px;cursor:none;color:#222;transition:filter 0.15s}
           .win-close-btn:hover{filter:brightness(0.9)}
           .win-body{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0}
           .win-thumb{position:relative;overflow:hidden;background:#111}
@@ -220,48 +191,69 @@ export default function Portfolio() {
           .win-metric{border-radius:10px;padding:12px}
           .win-metric-val{font-size:20px;font-weight:900;margin-bottom:3px}
           .win-metric-lbl{font-size:9px;color:#666;font-weight:600;line-height:1.4}
-          .win-pills{display:flex;gap:5px;flex-wrap:wrap}
+          .win-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
           .win-pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,0.07);color:#555;text-transform:uppercase;letter-spacing:0.05em}
+          .win-fullscreen-btn{margin-top:4px;padding:7px 16px;border-radius:99px;border:none;font-size:11px;font-weight:700;color:#fff;cursor:none;transition:all 0.2s}
+          .win-fullscreen-btn:hover{filter:brightness(0.9)}
 
+          /* Fullscreen overlay */
+          .fullscreen-overlay{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;animation:slideUp 0.4s cubic-bezier(0.16,1,0.3,1) both}
+          .fs-header{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;border-bottom:1px solid rgba(255,255,255,0.08);background:rgba(5,5,8,0.95);backdrop-filter:blur(20px);flex-shrink:0}
+          .fs-body{display:grid;grid-template-columns:45% 1fr;flex:1;min-height:0;overflow:hidden}
+          .fs-thumb{position:relative;overflow:hidden}
+          .fs-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+          .fs-thumb-fade{position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,#050508 100%)}
+          .fs-content{padding:3rem 3.5rem;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+          .fs-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:4px 14px;border-radius:99px;margin-bottom:16px}
+          .fs-title{font-size:clamp(28px,4vw,56px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:16px;color:#fff}
+          .fs-desc{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.85;max-width:540px;margin-bottom:28px}
+          .fs-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+          .fs-metric{border-radius:16px;padding:18px 20px}
+          .fs-metric-val{font-size:clamp(24px,3vw,40px);font-weight:900;margin-bottom:6px}
+          .fs-metric-lbl{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.4}
+          .fs-pills{display:flex;gap:8px;flex-wrap:wrap}
+          .fs-pill{font-size:10px;font-weight:700;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em}
+
+          /* Playing cards — mobile */
+          .cards-section{display:none}
+          .mac-section{display:block}
           @media(max-width:768px){
-            body{cursor:auto}
-            .ham-cursor,.retro-cursor{display:none}
-            a,button{cursor:pointer}
-            .win-body{grid-template-columns:1fr !important}
-            .win-thumb{height:200px}
-            .win-content{padding:16px}
-            .win-metrics{grid-template-columns:repeat(3,1fr)}
-            .win-metric-val{font-size:15px}
-            .folders-col{
-              position:relative !important;
-              flex-direction:row !important;
-              flex-wrap:wrap !important;
-              justify-content:center !important;
-              left:auto !important;
-              top:auto !important;
-              transform:none !important;
-              padding:24px 16px 16px;
-              gap:12px !important;
-            }
-            .folder-item{width:72px}
-            .hd-icon{top:12px;right:12px}
-            .trash-icon{bottom:12px;right:12px}
-            .desktop{min-height:320px !important}
-            .wallpaper-title{font-size:11px !important}
-            .wallpaper-sub{font-size:5px !important}
-            .mac-win .win-body{display:flex;flex-direction:column}
+            .cards-section{display:block}
+            .mac-section{display:none}
+            .fs-body{grid-template-columns:1fr;overflow-y:auto}
+            .fs-thumb{height:280px;flex-shrink:0}
+            .fs-thumb-fade{background:linear-gradient(0deg,#050508 0%,transparent 60%)}
+            .fs-content{padding:1.5rem;justify-content:flex-start}
+            .fs-metrics{grid-template-columns:repeat(3,1fr);gap:8px}
+            .fs-metric{padding:12px}
           }
 
-          /* Retro Mac cursor */
-          .retro-cursor {
-            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-            width: 20px; height: 24px;
-          }
-          .retro-cursor svg { width: 100%; height: 100%; }
+          /* Card flip */
+          .card-scene{perspective:1000px;height:240px;margin-bottom:0}
+          .card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+          .card-inner.flipped{transform:rotateY(180deg)}
+          .card-face{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;overflow:hidden}
+          .card-back{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1.5px solid;position:relative}
+          .card-back-pattern{position:absolute;inset:0;opacity:0.07;border-radius:20px}
+          .card-suit{position:absolute;font-size:12px;opacity:0.4}
+          .card-suit-tl{top:8px;left:10px}
+          .card-suit-br{bottom:8px;right:10px;transform:rotate(180deg)}
+          .card-front{transform:rotateY(180deg);display:flex;flex-direction:column;background:#050508;border:1.5px solid}
+          .card-front-thumb{flex:1;position:relative;overflow:hidden}
+          .card-front-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center}
+          .card-front-fade{position:absolute;inset:0;background:linear-gradient(0deg,#050508 0%,transparent 60%)}
+          .card-front-info{padding:12px 14px}
+          .card-front-tag{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+          .card-front-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.3}
+          .card-metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px}
+          .card-metric-m{border-radius:8px;padding:6px 6px}
+          .card-metric-val-m{font-size:13px;font-weight:900;margin-bottom:2px}
+          .card-metric-lbl-m{font-size:8px;color:rgba(255,255,255,0.4);line-height:1.3}
+          .card-view-btn{width:100%;padding:8px;border-radius:10px;border:none;font-size:11px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.2s}
         `}</style>
       </Head>
 
-      {/* Cursor */}
+      {/* Cursors — desktop only */}
       {!isMobile && !macCursor && (
         <div className={`ham-cursor${cursorHover?' hover':''}`} style={{ transform:`translate(${cursorPos.x-22}px,${cursorPos.y-22}px)` }}>
           <div className="ham-wheel" style={{ transform:`rotate(${wheelAngle}deg)` }}>
@@ -271,13 +263,59 @@ export default function Portfolio() {
       )}
       {!isMobile && macCursor && (
         <div className="retro-cursor" style={{ transform:`translate(${cursorPos.x}px,${cursorPos.y}px)` }}>
-          <svg viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="24">
             <path d="M0 0L0 15L3 12L5 17L7 16L5 11L9 11Z" fill="white" stroke="black" strokeWidth="1" strokeLinejoin="round"/>
           </svg>
         </div>
       )}
 
-      {/* Page nav */}
+      {/* Fullscreen case study overlay */}
+      {fullClient && (
+        <div className="fullscreen-overlay" style={{ background:'#050508' }}>
+          <div className="fs-header">
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <img src="/Growster-Favicon.png" alt="Growster" style={{ height:22 }} />
+              <span style={{ fontSize:13, fontWeight:900, letterSpacing:'-0.3px' }}>Growster<span style={{ color:'#ff0080' }}>.</span></span>
+              <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)', margin:'0 4px' }}>›</span>
+              <span style={{ fontSize:12, color:'rgba(255,255,255,0.5)', fontWeight:600 }}>{fullClient.name}</span>
+            </div>
+            <button onClick={() => setFullscreen(null)}
+              style={{ padding:'7px 18px', borderRadius:99, border:'1px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.06)', color:'rgba(255,255,255,0.7)', fontSize:12, fontWeight:700, cursor:'pointer' }}>
+              ✕ Close
+            </button>
+          </div>
+          <div className="fs-body">
+            <div className="fs-thumb">
+              <img src={fullClient.img} alt={fullClient.name} />
+              <div className="fs-thumb-fade" />
+              <div style={{ position:'absolute', bottom:24, left:24 }}>
+                <img src={fullClient.logo} alt={fullClient.name} style={{ height:28, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:0.9 }} />
+              </div>
+            </div>
+            <div className="fs-content">
+              <div style={{ position:'absolute', top:0, left:0, right:0, bottom:0, background:`radial-gradient(800px circle at 80% 50%, ${fullClient.color}06 0%, transparent 70%)`, pointerEvents:'none' }} />
+              <div style={{ position:'relative', zIndex:1 }}>
+                <div className="fs-tag" style={{ background:`${fullClient.color}15`, color:fullClient.color, border:`1px solid ${fullClient.color}30` }}>{fullClient.tag}</div>
+                <h2 className="fs-title">{fullClient.title}</h2>
+                <p className="fs-desc">{fullClient.desc}</p>
+                <div className="fs-metrics">
+                  {fullClient.metrics.map(([v,l]) => (
+                    <div key={l} className="fs-metric" style={{ background:`${fullClient.color}08`, border:`1px solid ${fullClient.color}20` }}>
+                      <div className="fs-metric-val" style={{ color:fullClient.color }}>{v}</div>
+                      <div className="fs-metric-lbl">{l}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="fs-pills">
+                  {fullClient.services.map(s => <div key={s} className="fs-pill">{s}</div>)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Nav */}
       <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:500, padding:'0 2rem', height:52, display:'flex', alignItems:'center', justifyContent:'space-between', background:scrolled?'rgba(5,5,8,0.95)':'transparent', backdropFilter:scrolled?'blur(20px)':'none', borderBottom:scrolled?'1px solid rgba(255,255,255,0.07)':'none', transition:'all 0.3s' }}>
         <a href="/" style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:8 }}>
           <img src="/Growster-Favicon.png" alt="Growster" style={{ height:26, width:26, objectFit:'contain' }} />
@@ -322,103 +360,142 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Mac section */}
+      {/* Case Studies */}
       <div style={{ maxWidth:1100, margin:'0 auto', padding:'6rem 2rem', position:'relative', zIndex:1 }}>
         <div style={{ marginBottom:40 }}>
           <div className="pill" style={{ background:'rgba(255,0,128,0.1)', color:'#ff0080', border:'1px solid rgba(255,0,128,0.2)', marginBottom:14 }}>Case Studies</div>
           <h2 style={{ fontSize:'clamp(26px,4vw,52px)', fontWeight:900, letterSpacing:'-2px', marginBottom:8 }}>The work.</h2>
-          <p style={{ fontSize:13, color:'rgba(255,255,255,0.35)', fontFamily:"'Press Start 2P', monospace" }}>double click a folder to open</p>
+          <p className="mac-section" style={{ fontSize:13, color:'rgba(255,255,255,0.35)', fontFamily:"'Press Start 2P', monospace" }}>double click a folder to open</p>
+          <p className="cards-section" style={{ fontSize:13, color:'rgba(255,255,255,0.35)' }}>tap a card · tap again to view full case study</p>
         </div>
 
-        <div className="mac-wrap" onMouseEnter={() => setMacCursor(true)} onMouseLeave={() => setMacCursor(false)}>
-          {/* Menu bar */}
-          <div className="menubar">
-            <span className="menubar-logo">🐹 Growster OS</span>
-            <span className="menubar-item">File</span>
-            <span className="menubar-item">Edit</span>
-            <span className="menubar-item">View</span>
-            <span className="menubar-item">Special</span>
-            <div className="menubar-right"><span>{clock}</span></div>
-          </div>
-
-          {/* Desktop */}
-          <div className="desktop">
-            {/* Orbs */}
-            <div style={{ position:'absolute', top:'-20%', left:'-10%', width:'70%', height:'120%', background:'radial-gradient(circle,rgba(255,0,128,0.06) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 4s ease-in-out infinite' }} />
-            <div style={{ position:'absolute', bottom:'-20%', right:'-10%', width:'60%', height:'100%', background:'radial-gradient(circle,rgba(0,80,255,0.05) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 5s ease-in-out infinite 1.5s' }} />
-
-            {/* Wallpaper text */}
-            <div className="wallpaper-text">
-              <div className="wallpaper-title">OUR WORK</div>
-              <div className="wallpaper-sub">DOUBLE CLICK A FOLDER TO SEE OUR WORK</div>
-            </div>
-
-            {/* Folders */}
-            <div className="folders-col">
-              {CLIENTS.map(c => (
-                <div key={c.key} className={`folder-item${selected===c.key?' selected':''}`}
-                  onClick={() => handleFolderClick(c.key)} data-hover>
-                  <div className="f-body">
-                    <div className="f-tab" style={{ background:c.tabGrad }} />
-                    <div className="f-main" style={{ background:c.folderGrad, border:`1px solid ${c.border}` }} />
+        {/* MOBILE — Playing cards */}
+        <div className="cards-section">
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            {CLIENTS.map(c => (
+              <div key={c.key} className="card-scene">
+                <div className={`card-inner${flipped[c.key]?' flipped':''}`} onClick={() => flipCard(c.key)}>
+                  {/* Back */}
+                  <div className="card-face card-back" style={{ background:'#0d0d1a', borderColor:`${c.color}30` }}>
+                    <div className="card-back-pattern" style={{ background:`repeating-linear-gradient(45deg,${c.color} 0,${c.color} 1px,transparent 0,transparent 14px),repeating-linear-gradient(-45deg,${c.color} 0,${c.color} 1px,transparent 0,transparent 14px)` }} />
+                    <span className="card-suit card-suit-tl" style={{ color:c.color }}>{c.suit}</span>
+                    <div style={{ width:52, height:52, borderRadius:14, background:`${c.color}15`, border:`1px solid ${c.color}30`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:24, zIndex:1 }}>{c.emoji}</div>
+                    <div style={{ fontSize:13, fontWeight:800, color:'#fff', zIndex:1 }}>{c.name}</div>
+                    <div style={{ fontSize:9, color:'rgba(255,255,255,0.4)', fontWeight:600, zIndex:1, textTransform:'uppercase', letterSpacing:'0.1em' }}>{c.tag}</div>
+                    <span className="card-suit card-suit-br" style={{ color:c.color }}>{c.suit}</span>
                   </div>
-                  <div className="f-label"><span className="f-label-inner">{c.name}</span></div>
-                </div>
-              ))}
-            </div>
-
-            {/* HD icon */}
-            <div className="hd-icon">
-              <div className="hd-body"><div className="hd-slot" /></div>
-              <div className="icon-lbl">Growster HD</div>
-            </div>
-
-            {/* Trash icon */}
-            <div className="trash-icon">
-              <div style={{ width:38, height:8, background:'linear-gradient(180deg,#ddd,#bbb)', border:'1px solid #888', borderBottom:'none', borderRadius:'3px 3px 0 0' }} />
-              <div className="trash-body"><div className="trash-lines" /></div>
-              <div className="icon-lbl">Trash</div>
-            </div>
-
-            {/* Window */}
-            {activeClient && (
-              <div className={`mac-win${open?' open':''}`}>
-                <div className="win-titlebar">
-                  <div className="wbtn wbtn-r" onClick={() => { setOpen(null); setSelected(null) }} data-hover />
-                  <div className="wbtn wbtn-y" />
-                  <div className="wbtn wbtn-g" />
-                  <div className="win-titlebar-name">{activeClient.name}</div>
-                </div>
-                <div className="win-toolbar">
-                  <div className="win-nav" onClick={() => { setOpen(null); setSelected(null) }} data-hover>←</div>
-                  <div className="win-nav">→</div>
-                  <div className="win-path-txt">Growster HD › Case Studies › {activeClient.name}</div>
-                  <button className="win-close-btn" onClick={() => { setOpen(null); setSelected(null) }}>Close</button>
-                </div>
-                <div className="win-body">
-                  <div className="win-thumb">
-                    <img src={activeClient.img} alt={activeClient.name} />
-                    <div className="win-thumb-fade" />
-                  </div>
-                  <div className="win-content">
-                    <div className="win-tag" style={{ background:`${activeClient.color}15`, color:activeClient.color, border:`1px solid ${activeClient.color}30` }}>{activeClient.tag}</div>
-                    <div className="win-title">{activeClient.title}</div>
-                    <div className="win-desc">{activeClient.desc}</div>
-                    <div className="win-metrics">
-                      {activeClient.metrics.map(([v,l]) => (
-                        <div key={l} className="win-metric" style={{ background:`${activeClient.color}10`, border:`1px solid ${activeClient.color}25` }}>
-                          <div className="win-metric-val" style={{ color:activeClient.color }}>{v}</div>
-                          <div className="win-metric-lbl">{l}</div>
-                        </div>
-                      ))}
+                  {/* Front */}
+                  <div className="card-face card-front" style={{ borderColor:`${c.color}30` }}>
+                    <div className="card-front-thumb">
+                      <img src={c.img} alt={c.name} />
+                      <div className="card-front-fade" />
                     </div>
-                    <div className="win-pills">
-                      {activeClient.services.map(s => <div key={s} className="win-pill">{s}</div>)}
+                    <div className="card-front-info">
+                      <div className="card-front-tag" style={{ color:c.color }}>{c.tag}</div>
+                      <div className="card-front-title">{c.title}</div>
+                      <div className="card-metrics-row">
+                        {c.metrics.map(([v,l]) => (
+                          <div key={l} className="card-metric-m" style={{ background:`${c.color}10`, border:`1px solid ${c.color}20` }}>
+                            <div className="card-metric-val-m" style={{ color:c.color }}>{v}</div>
+                            <div className="card-metric-lbl-m">{l}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <button className="card-view-btn" onClick={e => { e.stopPropagation(); setFullscreen(c.key) }}
+                        style={{ background:`linear-gradient(135deg,${c.color},${c.color}cc)`, boxShadow:`0 4px 16px ${c.color}30` }}>
+                        View full case study →
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            )}
+            ))}
+          </div>
+        </div>
+
+        {/* DESKTOP — Mac OS */}
+        <div className="mac-section">
+          <div className="mac-wrap" onMouseEnter={() => setMacCursor(true)} onMouseLeave={() => setMacCursor(false)}>
+            <div className="menubar">
+              <span className="menubar-logo">🐹 Growster OS</span>
+              <span className="menubar-item">File</span>
+              <span className="menubar-item">Edit</span>
+              <span className="menubar-item">View</span>
+              <span className="menubar-item">Special</span>
+              <div className="menubar-right">{clock}</div>
+            </div>
+            <div className="desktop">
+              <div style={{ position:'absolute', top:'-20%', left:'-10%', width:'70%', height:'120%', background:'radial-gradient(circle,rgba(255,0,128,0.06) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 4s ease-in-out infinite' }} />
+              <div style={{ position:'absolute', bottom:'-20%', right:'-10%', width:'60%', height:'100%', background:'radial-gradient(circle,rgba(0,80,255,0.05) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 5s ease-in-out infinite 1.5s' }} />
+              <div className="wallpaper-text">
+                <div className="wallpaper-title">OUR WORK</div>
+                <div className="wallpaper-sub">DOUBLE CLICK A FOLDER TO SEE OUR WORK</div>
+              </div>
+              <div className="folders-col">
+                {CLIENTS.map(c => (
+                  <div key={c.key} className={`folder-item${selected===c.key?' selected':''}`} onClick={() => handleFolderClick(c.key)}>
+                    <div className="f-body">
+                      <div className="f-tab" style={{ background:c.tabGrad }} />
+                      <div className="f-main" style={{ background:c.folderGrad, border:`1px solid ${c.border}` }} />
+                    </div>
+                    <div className="f-label"><span className="f-label-inner">{c.name}</span></div>
+                  </div>
+                ))}
+              </div>
+              <div className="hd-icon">
+                <div style={{ width:46, height:34, background:'linear-gradient(180deg,#e0e0e0,#c0c0c0)', border:'1px solid #888', borderRadius:3, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <div style={{ width:28, height:3, background:'#888', borderRadius:1 }} />
+                </div>
+                <div className="icon-lbl">Growster HD</div>
+              </div>
+              <div className="trash-icon">
+                <div style={{ width:38, height:8, background:'linear-gradient(180deg,#ddd,#bbb)', border:'1px solid #888', borderBottom:'none', borderRadius:'3px 3px 0 0' }} />
+                <div style={{ width:38, height:42, background:'linear-gradient(180deg,#ddd,#bbb)', border:'1px solid #888', borderRadius:'0 0 6px 6px', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <div style={{ width:22, height:26, background:'repeating-linear-gradient(0deg,#ccc,#ccc 2px,transparent 2px,transparent 5px)', border:'0.5px solid #aaa' }} />
+                </div>
+                <div className="icon-lbl">Trash</div>
+              </div>
+              {activeClient && (
+                <div className={`mac-win${open?' open':''}`}>
+                  <div className="win-titlebar">
+                    <div className="wbtn wbtn-r" onClick={() => { setOpen(null); setSelected(null) }} />
+                    <div className="wbtn wbtn-y" />
+                    <div className="wbtn wbtn-g" />
+                    <div className="win-titlebar-name">{activeClient.name}</div>
+                  </div>
+                  <div className="win-toolbar">
+                    <div className="win-nav" onClick={() => { setOpen(null); setSelected(null) }}>←</div>
+                    <div className="win-nav">→</div>
+                    <div className="win-path-txt">Growster HD › Case Studies › {activeClient.name}</div>
+                    <button className="win-close-btn" onClick={() => { setOpen(null); setSelected(null) }}>Close</button>
+                  </div>
+                  <div className="win-body">
+                    <div className="win-thumb">
+                      <img src={activeClient.img} alt={activeClient.name} />
+                      <div className="win-thumb-fade" />
+                    </div>
+                    <div className="win-content">
+                      <div className="win-tag" style={{ background:`${activeClient.color}15`, color:activeClient.color, border:`1px solid ${activeClient.color}30` }}>{activeClient.tag}</div>
+                      <div className="win-title">{activeClient.title}</div>
+                      <div className="win-desc">{activeClient.desc}</div>
+                      <div className="win-metrics">
+                        {activeClient.metrics.map(([v,l]) => (
+                          <div key={l} className="win-metric" style={{ background:`${activeClient.color}10`, border:`1px solid ${activeClient.color}25` }}>
+                            <div className="win-metric-val" style={{ color:activeClient.color }}>{v}</div>
+                            <div className="win-metric-lbl">{l}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="win-pills">{activeClient.services.map(s => <div key={s} className="win-pill">{s}</div>)}</div>
+                      <button className="win-fullscreen-btn" onClick={() => setFullscreen(activeClient.key)}
+                        style={{ background:`linear-gradient(135deg,${activeClient.color},${activeClient.color}cc)`, boxShadow:`0 4px 20px ${activeClient.color}30` }}>
+                        View full case study →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -436,7 +513,7 @@ export default function Portfolio() {
               { id:'eZdbXBqgqn4', title:'We Are MORE Than That', client:'Growster × Brand Film' },
               { id:'rxr6q2wLbx8', title:'The Devil Wears Virgio', client:'Virgio × Brand Film' },
             ].map(v => (
-              <div key={v.id} data-hover style={{ borderRadius:18, overflow:'hidden', background:'#000', boxShadow:'0 20px 60px rgba(0,0,0,0.5)', border:'1px solid rgba(255,255,255,0.08)', transition:'transform 0.3s cubic-bezier(0.16,1,0.3,1)' }}
+              <div key={v.id} style={{ borderRadius:18, overflow:'hidden', background:'#000', boxShadow:'0 20px 60px rgba(0,0,0,0.5)', border:'1px solid rgba(255,255,255,0.08)', transition:'transform 0.3s cubic-bezier(0.16,1,0.3,1)' }}
                 onMouseEnter={e => e.currentTarget.style.transform='translateY(-6px)'}
                 onMouseLeave={e => e.currentTarget.style.transform=''}>
                 <div style={{ position:'relative', paddingBottom:'56.25%' }}>
