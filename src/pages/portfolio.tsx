@@ -53,6 +53,15 @@ export default function Portfolio() {
   const [lightPos, setLightPos] = useState({ x:50, y:50 })
   const [clock, setClock] = useState('')
   const [macCursor, setMacCursor] = useState(false)
+  const [gameUnlocked, setGameUnlocked] = useState(false)
+  const gameCanvasRef = useRef<HTMLCanvasElement>(null)
+  const gameSpeed = useRef(0)
+  const gameAngle = useRef(0)
+  const gameDragging = useRef(false)
+  const gamePrevAngle = useRef<number|null>(null)
+  const gameLegCycle = useRef(0)
+  const gameRAF = useRef<number>(0)
+  const gameShattered = useRef(false)
   const targetCursor = useRef({ x:-200, y:-200 })
   const angleRef = useRef(0)
   const rafRef = useRef<number>(0)
@@ -90,6 +99,137 @@ export default function Portfolio() {
     rafRef.current = requestAnimationFrame(animateCursor)
     return () => { clearInterval(t); cancelAnimationFrame(rafRef.current); window.removeEventListener('resize',onResize); window.removeEventListener('scroll',onScroll); window.removeEventListener('mousemove',onMove); window.removeEventListener('mousemove',onMag) }
   }, [animateCursor])
+
+  // Hamster wheel game — mobile only
+  useEffect(() => {
+    if (gameUnlocked || !isMobile) return
+    const canvas = gameCanvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+    const W = canvas.width, H = canvas.height, cx = W/2, cy = H/2, R = 100
+
+    function getAngle(e: any) {
+      const r = canvas!.getBoundingClientRect()
+      const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left - cx
+      const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top - cy
+      return Math.atan2(y, x)
+    }
+
+    const onDown = (e: any) => { gameDragging.current=true; gamePrevAngle.current=getAngle(e) }
+    const onMove = (e: any) => {
+      if (!gameDragging.current) return
+      if (e.cancelable) e.preventDefault()
+      const a = getAngle(e)
+      let da = a - (gamePrevAngle.current||0)
+      if (da > Math.PI) da -= 2*Math.PI
+      if (da < -Math.PI) da += 2*Math.PI
+      const newSpeed = Math.min(gameSpeed.current + Math.abs(da)*60, 100)
+      gameSpeed.current = newSpeed
+      gameAngle.current += da
+      gamePrevAngle.current = a
+    }
+    const onUp = () => { gameDragging.current=false }
+
+    canvas.addEventListener('touchstart', onDown, {passive:true})
+    canvas.addEventListener('touchmove', onMove, {passive:false})
+    canvas.addEventListener('mousedown', onDown)
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+    window.addEventListener('touchend', onUp)
+
+    function drawFrame() {
+      if (!gameDragging.current) gameSpeed.current = Math.max(0, gameSpeed.current * 0.97)
+      const s = gameSpeed.current / 100
+      ctx.clearRect(0,0,W,H)
+
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.rotate(gameAngle.current)
+      for (let i=0; i<12; i++) {
+        const a = (i/12)*Math.PI*2
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*R, Math.sin(a)*R)
+        ctx.strokeStyle = `rgba(255,${Math.round(s*80)},128,${0.15+s*0.35})`
+        ctx.lineWidth = 1.5; ctx.stroke()
+      }
+      ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2)
+      ctx.strokeStyle = `rgba(255,${Math.round(s*60)},${Math.round(128-s*80)},${0.5+s*0.4})`
+      ctx.lineWidth = 2+s*3; ctx.stroke()
+      ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2)
+      ctx.fillStyle = s>0.5?'#ff0080':'rgba(255,255,255,0.4)'; ctx.fill()
+      ctx.restore()
+
+      // Particles
+      if (s > 0.2) {
+        for (let i=0; i<Math.floor(s*5); i++) {
+          const a = gameAngle.current + (i/5)*Math.PI*2
+          const px = cx+Math.cos(a)*(R+Math.random()*15), py = cy+Math.sin(a)*(R+Math.random()*15)
+          ctx.beginPath(); ctx.arc(px,py,1+Math.random(),0,Math.PI*2)
+          ctx.fillStyle = i%2===0?`rgba(255,0,128,${s*0.6})`:`rgba(0,80,255,${s*0.6})`; ctx.fill()
+        }
+      }
+
+      // Favicon hamster
+      gameLegCycle.current += s * 0.3
+      const bounce = s>0.05 ? Math.sin(gameLegCycle.current*8)*3*s : 0
+      const img = new Image()
+      img.src = '/Growster-Favicon.png'
+      ctx.save()
+      ctx.beginPath(); ctx.arc(cx, cy+bounce, 22, 0, Math.PI*2); ctx.clip()
+      ctx.drawImage(img, cx-22, cy-22+bounce, 44, 44)
+      ctx.restore()
+
+      // Speed bar update
+      const bar = document.getElementById('game-speed-bar')
+      const lbl = document.getElementById('game-speed-lbl')
+      if (bar) (bar as HTMLElement).style.width = gameSpeed.current+'%'
+      if (lbl) {
+        if (gameSpeed.current < 5) lbl.textContent = 'Spin the wheel...'
+        else if (gameSpeed.current < 30) lbl.textContent = 'Keep going...'
+        else if (gameSpeed.current < 60) lbl.textContent = 'Faster!'
+        else if (gameSpeed.current < 85) lbl.textContent = 'Almost there...'
+        else lbl.textContent = 'BREAK FREE!'
+      }
+
+      if (!gameShattered.current && gameSpeed.current > 96) {
+        gameShattered.current = true
+        shatterEffect(ctx, cx, cy, R, W, H)
+        return
+      }
+      if (!gameShattered.current) gameRAF.current = requestAnimationFrame(drawFrame)
+    }
+
+    function shatterEffect(sctx: CanvasRenderingContext2D, cx: number, cy: number, R: number, W: number, H: number) {
+      const pieces: any[] = []
+      for (let i=0; i<20; i++) {
+        const a = (i/20)*Math.PI*2
+        pieces.push({ x:cx+Math.cos(a)*(R*0.7), y:cy+Math.sin(a)*(R*0.7), vx:Math.cos(a)*(3+Math.random()*5), vy:Math.sin(a)*(3+Math.random()*5), rot:Math.random()*Math.PI*2, vrot:(Math.random()-0.5)*0.2, w:6+Math.random()*18, h:3+Math.random()*8, alpha:1, color:i%2===0?'#ff0080':'#0050ff' })
+      }
+      function animShatter() {
+        sctx.clearRect(0,0,W,H)
+        let alive=false
+        for (const p of pieces) {
+          p.x+=p.vx; p.y+=p.vy; p.vx*=0.95; p.vy*=0.95; p.rot+=p.vrot; p.alpha-=0.022
+          if (p.alpha<=0) continue; alive=true
+          sctx.save(); sctx.translate(p.x,p.y); sctx.rotate(p.rot); sctx.globalAlpha=p.alpha; sctx.fillStyle=p.color
+          sctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); sctx.restore()
+        }
+        if (alive) requestAnimationFrame(animShatter)
+        else setTimeout(() => setGameUnlocked(true), 200)
+      }
+      requestAnimationFrame(animShatter)
+    }
+
+    gameRAF.current = requestAnimationFrame(drawFrame)
+    return () => {
+      cancelAnimationFrame(gameRAF.current)
+      canvas.removeEventListener('touchstart', onDown)
+      canvas.removeEventListener('touchmove', onMove)
+      canvas.removeEventListener('mousedown', onDown)
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+      window.removeEventListener('touchend', onUp)
+    }
+  }, [isMobile, gameUnlocked])
 
   // Prevent body scroll when fullscreen open
   useEffect(() => {
@@ -252,6 +392,28 @@ export default function Portfolio() {
           .card-view-btn{width:100%;padding:8px;border-radius:10px;border:none;font-size:11px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.2s}
         `}</style>
       </Head>
+
+      {/* Mobile hamster gate */}
+      {isMobile && !gameUnlocked && (
+        <div style={{ position:'fixed', inset:0, background:'#050508', zIndex:9000, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'2rem', overflow:'hidden' }}>
+          <div style={{ position:'absolute', top:'-20%', left:'-20%', width:'80vw', height:'80vw', background:'radial-gradient(circle,rgba(255,0,128,0.12) 0%,transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', bottom:'-20%', right:'-20%', width:'70vw', height:'70vw', background:'radial-gradient(circle,rgba(0,80,255,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.15em', textTransform:'uppercase', color:'#ff0080', background:'rgba(255,0,128,.1)', border:'1px solid rgba(255,0,128,.2)', padding:'4px 14px', borderRadius:99, marginBottom:20 }}>Growster</div>
+          <h1 style={{ fontSize:'clamp(22px,6vw,30px)', fontWeight:900, color:'#fff', letterSpacing:'-1px', lineHeight:1.15, textAlign:'center', marginBottom:8 }}>
+            Our portfolio looks best<br />on Laptop or iPad.
+          </h1>
+          <p style={{ fontSize:13, color:'rgba(255,255,255,.4)', textAlign:'center', marginBottom:32, lineHeight:1.65 }}>
+            But if you're so determined —<br />you have to earn it.
+          </p>
+          <canvas ref={gameCanvasRef} width={240} height={240} style={{ borderRadius:'50%', touchAction:'none' }} />
+          <div style={{ width:220, margin:'20px auto 0', background:'rgba(255,255,255,.06)', borderRadius:99, height:6, border:'1px solid rgba(255,255,255,.08)', overflow:'hidden' }}>
+            <div id="game-speed-bar" style={{ height:'100%', width:'0%', borderRadius:99, background:'linear-gradient(90deg,#ff0080,#0050ff)', transition:'width .1s' }} />
+          </div>
+          <div id="game-speed-lbl" style={{ textAlign:'center', fontSize:11, fontWeight:700, color:'rgba(255,255,255,.35)', letterSpacing:'.1em', textTransform:'uppercase', marginTop:8 }}>Spin the wheel</div>
+          <p style={{ fontSize:10, color:'rgba(255,255,255,.18)', textAlign:'center', marginTop:14, letterSpacing:'.05em' }}>Drag to spin · Go faster to break free</p>
+          <div style={{ marginTop:20, fontSize:13, fontWeight:800, color:'rgba(255,255,255,0.15)', letterSpacing:'-0.3px', textAlign:'center', fontStyle:'italic' }}>Break free of the Hamster Wheel.</div>
+        </div>
+      )}
 
       {/* Cursors — desktop only */}
       {!isMobile && !macCursor && (
