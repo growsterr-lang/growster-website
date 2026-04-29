@@ -164,10 +164,10 @@ export default function Portfolio() {
             border-radius: 50%;
             border: 2px solid rgba(255,0,128,0.6);
             display: flex; align-items: center; justify-content: center;
-            background: rgba(5,5,8,0.7);
+            background: rgba(5,5,8,0.85);
             backdrop-filter: blur(4px);
-            font-size: 20px;
-            box-shadow: 0 0 16px rgba(255,0,128,0.2);
+            box-shadow: 0 0 20px rgba(255,0,128,0.25);
+            overflow: hidden;
           }
           .ham-trail {
             position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
@@ -215,7 +215,9 @@ export default function Portfolio() {
         <>
           <div className={`ham-cursor${cursorHover?' hover':''}`}
             style={{ transform:`translate(${cursorPos.x - 22}px, ${cursorPos.y - 22}px)` }}>
-            <div className="ham-wheel" style={{ transform:`rotate(${wheelAngle}deg)` }}>🐹</div>
+            <div className="ham-wheel" style={{ transform:`rotate(${wheelAngle}deg)` }}>
+              <img src="/Growster-Favicon.png" alt="" style={{ width:26, height:26, objectFit:'contain' }} />
+            </div>
           </div>
           <div className="ham-trail"
             style={{ transform:`translate(${targetCursor.current.x - 3}px, ${targetCursor.current.y - 3}px)`, transition:'transform 0.05s', background:'#ff0080', opacity:0.5 }} />
