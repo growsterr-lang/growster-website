@@ -223,7 +223,34 @@ export default function Portfolio() {
           .win-pills{display:flex;gap:5px;flex-wrap:wrap}
           .win-pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,0.07);color:#555;text-transform:uppercase;letter-spacing:0.05em}
 
-          @media(max-width:768px){body{cursor:auto}.ham-cursor{display:none}a,button{cursor:pointer}.win-body{grid-template-columns:1fr}.win-thumb{height:180px}.folders-col{flex-direction:row;left:50%;transform:translateX(-50%);top:auto;bottom:70px;gap:10px}}
+          @media(max-width:768px){
+            body{cursor:auto}
+            .ham-cursor,.retro-cursor{display:none}
+            a,button{cursor:pointer}
+            .win-body{grid-template-columns:1fr !important}
+            .win-thumb{height:200px}
+            .win-content{padding:16px}
+            .win-metrics{grid-template-columns:repeat(3,1fr)}
+            .win-metric-val{font-size:15px}
+            .folders-col{
+              position:relative !important;
+              flex-direction:row !important;
+              flex-wrap:wrap !important;
+              justify-content:center !important;
+              left:auto !important;
+              top:auto !important;
+              transform:none !important;
+              padding:24px 16px 16px;
+              gap:12px !important;
+            }
+            .folder-item{width:72px}
+            .hd-icon{top:12px;right:12px}
+            .trash-icon{bottom:12px;right:12px}
+            .desktop{min-height:320px !important}
+            .wallpaper-title{font-size:11px !important}
+            .wallpaper-sub{font-size:5px !important}
+            .mac-win .win-body{display:flex;flex-direction:column}
+          }
 
           /* Retro Mac cursor */
           .retro-cursor {
