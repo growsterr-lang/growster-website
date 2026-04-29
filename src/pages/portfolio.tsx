@@ -294,67 +294,154 @@ export default function Portfolio() {
           <h2 style={{ fontSize:'clamp(28px,4vw,56px)', fontWeight:900, letterSpacing:'-2px' }}>The work.</h2>
         </div>
 
-        <div style={{ display:'grid', gap:20 }}>
-          {CASE_STUDIES.map((c, ci) => (
-            <div key={c.slug} data-hover
-              className={`light-card fade-up-${ci}`}
-              onClick={() => setActiveCase(activeCase===c.slug?null:c.slug)}
-              style={{ borderRadius:28, overflow:'hidden', border:'1px solid rgba(255,255,255,0.08)', cursor:'none', background:'rgba(255,255,255,0.02)',
-                '--light-x':`${lightPos.x}%`, '--light-y':`${lightPos.y}%`
-              } as any}>
+        {/* Folder stack */}
+        <div style={{ position:'relative', minHeight: isMobile ? 'auto' : 520 }}>
+          {/* Stacked closed folders */}
+          {activeCase === null && (
+            <div style={{ position: isMobile ? 'relative' : 'relative', display:'flex', flexDirection:'column', gap: isMobile ? 16 : 0 }}>
+              {CASE_STUDIES.map((c, ci) => {
+                const offset = ci * (isMobile ? 0 : 18)
+                return (
+                  <div key={c.slug} data-hover
+                    onClick={() => setActiveCase(c.slug)}
+                    style={{
+                      position: isMobile ? 'relative' : 'absolute',
+                      top: isMobile ? 'auto' : offset,
+                      left: isMobile ? 'auto' : offset * 0.5,
+                      right: isMobile ? 'auto' : 0,
+                      zIndex: CASE_STUDIES.length - ci,
+                      width: isMobile ? '100%' : `calc(100% - ${offset * 0.5}px)`,
+                      borderRadius: 24,
+                      background: `rgba(12,12,20,0.95)`,
+                      border: `1px solid ${c.color}30`,
+                      backdropFilter: 'blur(20px)',
+                      cursor: 'none',
+                      transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+                      boxShadow: `0 ${8 + ci * 4}px ${32 + ci * 8}px rgba(0,0,0,0.4), 0 0 0 1px ${c.color}15`,
+                      overflow: 'hidden',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = `translateY(-8px) translateX(-${ci*2}px)`
+                      e.currentTarget.style.boxShadow = `0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px ${c.color}40, 0 0 40px ${c.color}15`
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = ''
+                      e.currentTarget.style.boxShadow = `0 ${8 + ci * 4}px ${32 + ci * 8}px rgba(0,0,0,0.4), 0 0 0 1px ${c.color}15`
+                    }}>
 
-              {/* Inline light shimmer */}
-              <div style={{ position:'absolute', inset:0, pointerEvents:'none', zIndex:2,
-                background:`radial-gradient(400px circle at ${lightPos.x}% ${lightPos.y}%, ${c.color}08 0%, transparent 70%)`,
-                transition:'background 0.15s', borderRadius:28 }} />
+                    {/* Folder tab */}
+                    <div style={{ height: 6, background: `linear-gradient(90deg, ${c.color}, ${c.color}80)`, width: '40%', borderRadius: '0 0 8px 0' }} />
 
-              <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '340px 1fr', position:'relative', zIndex:3 }}>
-                {/* Thumbnail */}
-                <div style={{ position:'relative', overflow:'hidden', background:`${c.color}15`, minHeight: isMobile ? 220 : 260 }}>
-                  <img src={c.thumbnail} alt={c.client}
-                    style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center', position:'absolute', inset:0,
-                      transition:'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-                      transform: activeCase===c.slug ? 'scale(1.08)' : 'scale(1.01)' }} />
-                  <div style={{ position:'absolute', inset:0, background: isMobile ? 'linear-gradient(0deg, rgba(5,5,8,0.85) 0%, transparent 60%)' : `linear-gradient(90deg, transparent 40%, rgba(5,5,8,0.95) 100%)` }} />
-                  <div style={{ position:'absolute', bottom:16, left:16 }}>
-                    <img src={c.logo} alt={`${c.client} logo`} style={{ height:24, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:0.85 }} />
-                  </div>
-                  {/* Colour glow on hover */}
-                  <div style={{ position:'absolute', inset:0, background:`radial-gradient(circle at 30% 70%, ${c.color}20 0%, transparent 60%)`, opacity: activeCase===c.slug ? 1 : 0, transition:'opacity 0.4s' }} />
-                </div>
+                    <div style={{ display:'flex', alignItems:'center', gap:20, padding: isMobile ? '1.25rem' : '1.5rem 2rem' }}>
+                      {/* Logo peek */}
+                      <div style={{ width: isMobile ? 56 : 72, height: isMobile ? 56 : 72, borderRadius:16, background:`${c.color}12`, border:`1px solid ${c.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, overflow:'hidden' }}>
+                        <img src={c.logo} alt={c.client} style={{ width:'80%', height:'80%', objectFit:'contain', filter:'brightness(0) invert(1)', opacity:0.9 }} />
+                      </div>
 
-                {/* Content */}
-                <div style={{ padding: isMobile ? '1.5rem' : '2rem 2.5rem', display:'flex', flexDirection:'column', justifyContent:'space-between',
-                  borderLeft: isMobile ? 'none' : `3px solid ${c.color}`,
-                  borderTop: isMobile ? `3px solid ${c.color}` : 'none' }}>
-                  <div>
-                    <div style={{ display:'flex', gap:8, alignItems:'center', marginBottom:14, flexWrap:'wrap' }}>
-                      <span className="pill" style={{ background:`${c.color}18`, color:c.color, border:`1px solid ${c.color}30` }}>{c.tag}</span>
-                      {c.services.map(s => <span key={s} style={{ fontSize:10, color:'rgba(255,255,255,0.28)', fontWeight:600 }}>{s}</span>)}
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ display:'flex', gap:8, alignItems:'center', marginBottom:6, flexWrap:'wrap' }}>
+                          <span className="pill" style={{ background:`${c.color}18`, color:c.color, border:`1px solid ${c.color}30` }}>{c.tag}</span>
+                        </div>
+                        <div style={{ fontSize: isMobile ? 18 : 22, fontWeight:900, letterSpacing:'-0.5px', color:'#fff', marginBottom:4 }}>{c.client}</div>
+                        <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', fontWeight:500 }}>{c.tagline}</div>
+                      </div>
+
+                      {/* Metrics preview */}
+                      {!isMobile && (
+                        <div style={{ display:'flex', gap:20, flexShrink:0 }}>
+                          {c.metrics.slice(0,2).map(m => (
+                            <div key={m.label} style={{ textAlign:'right' }}>
+                              <div style={{ fontSize:22, fontWeight:900, color:c.color }}>{m.value}</div>
+                              <div style={{ fontSize:10, color:'rgba(255,255,255,0.35)', fontWeight:600, maxWidth:100 }}>{m.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div style={{ fontSize:18, color:`${c.color}`, flexShrink:0, marginLeft:8 }}>→</div>
                     </div>
-                    <h3 style={{ fontSize:'clamp(22px,2.5vw,38px)', fontWeight:900, letterSpacing:'-1px', marginBottom:10, lineHeight:1.15 }}>{c.tagline}</h3>
-                    <div style={{ overflow:'hidden', maxHeight: activeCase===c.slug ? 200 : 0, opacity: activeCase===c.slug ? 1 : 0, transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)' }}>
-                      <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.85, maxWidth:540, paddingTop:8, paddingBottom:16 }}>{c.desc}</p>
-                    </div>
-                  </div>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16 }}>
-                    <span style={{ fontSize:11, color:'rgba(255,255,255,0.25)', fontWeight:600 }}>{activeCase===c.slug ? 'Collapse ↑' : 'Expand ↓'}</span>
-                    <div style={{ fontSize:20, color:c.color, transition:'transform 0.4s cubic-bezier(0.16,1,0.3,1)', transform:activeCase===c.slug?'rotate(180deg)':'rotate(0)' }}>↓</div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Metrics */}
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', borderTop:`1px solid rgba(255,255,255,0.06)`, position:'relative', zIndex:3 }}>
-                {c.metrics.map((m, mi) => (
-                  <div key={m.label} style={{ padding:'18px 20px', borderRight:mi<2?'1px solid rgba(255,255,255,0.06)':'none', background:`${c.color}04`, transition:'background 0.3s' }}>
-                    <div style={{ fontSize:'clamp(20px,2.5vw,32px)', fontWeight:900, color:c.color, marginBottom:4 }}>{m.value}</div>
-                    <div style={{ fontSize:11, color:'rgba(255,255,255,0.38)', lineHeight:1.4 }}>{m.label}</div>
+                    {/* Light shimmer */}
+                    <div style={{ position:'absolute', inset:0, pointerEvents:'none', background:`radial-gradient(400px circle at ${lightPos.x}% ${lightPos.y}%, ${c.color}06 0%, transparent 70%)`, transition:'background 0.15s' }} />
                   </div>
-                ))}
-              </div>
+                )
+              })}
+              {/* Spacer for stacked positioning */}
+              {!isMobile && <div style={{ height: 18 * CASE_STUDIES.length + 80 }} />}
             </div>
-          ))}
+          )}
+
+          {/* Expanded folder view */}
+          {activeCase !== null && (() => {
+            const c = CASE_STUDIES.find(x => x.slug === activeCase)!
+            return (
+              <div>
+                {/* Back button */}
+                <button onClick={() => setActiveCase(null)} data-hover
+                  style={{ display:'flex', alignItems:'center', gap:8, marginBottom:24, padding:'8px 16px', borderRadius:99, border:`1px solid ${c.color}30`, background:`${c.color}10`, color:c.color, fontSize:13, fontWeight:700, cursor:'none', fontFamily:'inherit' }}>
+                  ← Back to all work
+                </button>
+
+                {/* Open folder */}
+                <div style={{ borderRadius:28, overflow:'hidden', border:`1px solid ${c.color}30`, background:'rgba(10,10,18,0.98)', boxShadow:`0 40px 100px rgba(0,0,0,0.6), 0 0 60px ${c.color}10` }}>
+                  {/* Folder tab */}
+                  <div style={{ height:8, background:`linear-gradient(90deg, ${c.color}, ${c.color}60)`, width:'50%', borderRadius:'0 0 12px 0' }} />
+
+                  {/* Hero image */}
+                  <div style={{ position:'relative', height: isMobile ? 240 : 380, overflow:'hidden' }}>
+                    <img src={c.thumbnail} alt={c.client} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center' }} />
+                    <div style={{ position:'absolute', inset:0, background:`linear-gradient(0deg, rgba(10,10,18,1) 0%, rgba(10,10,18,0.3) 50%, transparent 100%)` }} />
+                    {/* Logo overlay */}
+                    <div style={{ position:'absolute', bottom:24, left:28 }}>
+                      <img src={c.logo} alt={c.client} style={{ height:32, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:0.95 }} />
+                    </div>
+                    <div style={{ position:'absolute', top:20, right:20 }}>
+                      <span className="pill" style={{ background:`${c.color}25`, color:c.color, border:`1px solid ${c.color}40` }}>{c.tag}</span>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: isMobile ? '1.5rem' : '2.5rem 3rem' }}>
+                    <h3 style={{ fontSize:'clamp(24px,3vw,44px)', fontWeight:900, letterSpacing:'-1.5px', marginBottom:16, lineHeight:1.1 }}>{c.tagline}</h3>
+                    <p style={{ fontSize:15, color:'rgba(255,255,255,0.55)', lineHeight:1.85, maxWidth:640, marginBottom:32 }}>{c.desc}</p>
+
+                    {/* Services pills */}
+                    <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:32 }}>
+                      {c.services.map(s => (
+                        <span key={s} className="pill" style={{ background:'rgba(255,255,255,0.06)', color:'rgba(255,255,255,0.6)', border:'1px solid rgba(255,255,255,0.1)', padding:'6px 14px' }}>{s}</span>
+                      ))}
+                    </div>
+
+                    {/* Metrics */}
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12 }}>
+                      {c.metrics.map((m, mi) => (
+                        <div key={m.label} style={{ background:`${c.color}08`, border:`1px solid ${c.color}20`, borderRadius:16, padding:'1.25rem 1.5rem' }}>
+                          <div style={{ fontSize:'clamp(24px,3vw,40px)', fontWeight:900, color:c.color, marginBottom:6 }}>{m.value}</div>
+                          <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', lineHeight:1.5 }}>{m.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Other clients mini row */}
+                <div style={{ marginTop:20 }}>
+                  <div style={{ fontSize:11, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:12 }}>Other work</div>
+                  <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
+                    {CASE_STUDIES.filter(x=>x.slug!==activeCase).map(x => (
+                      <div key={x.slug} onClick={() => setActiveCase(x.slug)} data-hover
+                        style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 16px', borderRadius:14, border:`1px solid ${x.color}25`, background:`${x.color}08`, cursor:'none', transition:'all 0.2s' }}
+                        onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.borderColor=`${x.color}50` }}
+                        onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.borderColor=`${x.color}25` }}>
+                        <img src={x.logo} alt={x.client} style={{ height:18, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:0.7 }} />
+                        <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.6)' }}>{x.client}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
         </div>
       </div>
 
