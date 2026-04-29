@@ -216,7 +216,7 @@ export default function Portfolio() {
           <div className={`ham-cursor${cursorHover?' hover':''}`}
             style={{ transform:`translate(${cursorPos.x - 22}px, ${cursorPos.y - 22}px)` }}>
             <div className="ham-wheel" style={{ transform:`rotate(${wheelAngle}deg)` }}>
-              <img src="/Growster-Favicon.png" alt="" style={{ width:26, height:26, objectFit:'contain' }} />
+              <img src="/Growster-Favicon.png" alt="" style={{ width:'100%', height:'100%', objectFit:'cover', borderRadius:'50%' }} />
             </div>
           </div>
           <div className="ham-trail"
