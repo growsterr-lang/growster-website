@@ -129,7 +129,7 @@ export default function GrowPage() {
               We don't run ads.<br/>We <span style={grad}>build brands</span><br/>that earn attention.
             </h1>
             <p className="fu2" style={{ fontSize:15, color:'rgba(255,255,255,0.5)', lineHeight:1.8, maxWidth:480, marginBottom:28 }}>
-              Brand films, performance marketing, and social media — from a team that operates as your internal marketing department. 100 Cr+ revenue impacted last FY. 500M+ views on content we've produced. Results, not retainers.
+              The brands you see spending heavily on Meta and YouTube — Snitch, Virgio, RWDY — trusted us with their full marketing mandate. We don't pitch decks. We deliver results. 100 Cr+ impacted last FY.
             </p>
 
             {/* Trust signals */}
@@ -165,8 +165,12 @@ export default function GrowPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
+                <div style={{ padding:'10px 14px', borderRadius:10, background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', marginBottom:16 }}>
+                  <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', lineHeight:1.7, fontStyle:'italic' }}>"Growster is the only agency we've worked with that actually thinks like founders. They've been instrumental in our growth."</div>
+                  <div style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.3)', marginTop:6, textTransform:'uppercase', letterSpacing:'0.08em' }}>— Snitch Team</div>
+                </div>
                 <div style={{ fontSize:20, fontWeight:900, letterSpacing:'-0.5px', marginBottom:4 }}>Book a discovery call</div>
-                <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', marginBottom:20, lineHeight:1.6 }}>We take 3–4 clients per quarter.<br/>Tell us about your brand.</div>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,0.4)', marginBottom:20, lineHeight:1.6 }}>We're selective. 3–4 new clients per quarter.<br/>If you're serious about growth — let's talk.</div>
 
                 <div style={{ display:'grid', gap:12 }}>
                   <div>
@@ -205,7 +209,7 @@ export default function GrowPage() {
                   {status==='loading' ? 'Submitting...' : 'Book my discovery call →'}
                 </button>
                 <div style={{ fontSize:10, color:'rgba(255,255,255,0.2)', textAlign:'center', marginTop:10, lineHeight:1.7 }}>
-                  We respond within 24 hours. No spam, ever.<br/>We don't take every client — we take the right ones.
+                  We respond within 24 hrs. No agency pitch, no fluff.<br/>Just an honest conversation about what's possible.
                 </div>
               </form>
             )}
@@ -217,15 +221,9 @@ export default function GrowPage() {
       <div style={{ borderTop:'1px solid rgba(255,255,255,0.06)', borderBottom:'1px solid rgba(255,255,255,0.06)', background:'rgba(255,255,255,0.02)', padding:'16px 0', overflow:'hidden', position:'relative', zIndex:1 }}>
         <div style={{ display:'flex', gap:0, animation:'marquee 20s linear infinite', width:'200%' }}>
           {[...LOGOS,...LOGOS].map((l,i) => (
-            <div key={i} style={{ display:'flex', alignItems:'center', gap:8, padding:'0 32px', whiteSpace:'nowrap', flexShrink:0 }}>
-              {l.img ? (
-                <img src={l.img} alt={l.name} style={{ height:18, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:.45 }} />
-              ) : (
-                <>
-                  <div style={{ width:5, height:5, borderRadius:'50%', background:l.color }} />
-                  <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.35)' }}>{l.name}</span>
-                </>
-              )}
+            <div key={i} style={{ display:'flex', alignItems:'center', gap:10, padding:'0 40px', whiteSpace:'nowrap', flexShrink:0 }}>
+              <div style={{ width:4, height:4, borderRadius:'50%', background:l.color, opacity:0.6 }} />
+              <span style={{ fontSize:14, fontWeight:500, color:'rgba(255,255,255,0.3)', fontFamily:'Montserrat,sans-serif', letterSpacing:'0.18em', textTransform:'uppercase' }}>{l.name}</span>
             </div>
           ))}
         </div>
@@ -330,7 +328,7 @@ export default function GrowPage() {
             Ready to break free<br/>of the <span style={grad}>hamster wheel?</span>
           </h2>
           <p style={{ fontSize:14, color:'rgba(255,255,255,0.4)', maxWidth:420, margin:'0 auto 32px', lineHeight:1.8 }}>
-            30 minutes. No pitch deck. No BS. Just an honest conversation about your brand and what we can do for it.
+            30 minutes. We'll tell you exactly what's broken in your current marketing and what it would take to fix it. No pitch deck. No BS.
           </p>
           <button className="btn-primary" onClick={scrollToForm} style={{ fontSize:15, padding:'14px 36px' }}>
             Book my discovery call →
