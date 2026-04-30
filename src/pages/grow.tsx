@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 const SUPABASE_URL = 'https://agrctbhbmusxtjstfvst.supabase.co'
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0YmhibXVzeHRqc3RmdnN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTcwODgsImV4cCI6MjA4OTMzMzA4OH0.4hXxsswtPE7PUnKNBWEOpiDRT8T2kMO0HaPUQ8fn2pQ'
 
-const BUDGETS = ['Under ₹2L', '₹2L – ₹5L', '₹5L – ₹15L', '₹15L+']
+const BUDGETS = ['Under ₹5L', '₹5L – ₹10L', '₹10L – ₹20L', '₹20L – ₹50L', '₹50L+']
 const SERVICES = ['Brand Films & Content', 'Performance Marketing', 'Social Media Management', 'Full mandate — all three']
 const LOGOS = [
   { name:'Snitch', img:'/growster-website/Snitch Logo.png', color:'#ff0080' },
@@ -71,7 +71,7 @@ export default function GrowPage() {
         <meta name="description" content="Work with India's leading growth marketing partner. Brand films, performance marketing, and social media — results not retainers." />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta property="og:title" content="Break free of the Hamster Wheel — Growster" />
-        <meta property="og:description" content="50 Cr+ revenue generated. Book a discovery call with Growster." />
+        <meta property="og:description" content="100 Cr+ revenue impacted. 500M+ views on content we've produced." />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
@@ -129,12 +129,12 @@ export default function GrowPage() {
               We don't run ads.<br/>We <span style={grad}>build brands</span><br/>that earn attention.
             </h1>
             <p className="fu2" style={{ fontSize:15, color:'rgba(255,255,255,0.5)', lineHeight:1.8, maxWidth:480, marginBottom:28 }}>
-              Brand films, performance marketing, and social media — from a team that operates as your internal marketing department. 50 Cr+ generated. Results, not retainers.
+              Brand films, performance marketing, and social media — from a team that operates as your internal marketing department. 100 Cr+ revenue impacted last FY. 500M+ views on content we've produced. Results, not retainers.
             </p>
 
             {/* Trust signals */}
             <div className="fu3" style={{ display:'flex', flexWrap:'wrap', gap:16, marginBottom:32 }}>
-              {[['✓','50 Cr+ revenue generated'],['✓','Founder-led team'],['✓','No lock-in contracts']].map(([icon,t]) => (
+              {[['✓','100 Cr+ revenue impacted (last FY)'],['✓','Founder-led team'],['✓','No lock-in contracts']].map(([icon,t]) => (
                 <div key={t} style={{ display:'flex', alignItems:'center', gap:6, fontSize:12, color:'rgba(255,255,255,0.5)', fontWeight:600 }}>
                   <span style={{ color:'#10b981', fontWeight:700 }}>{icon}</span>{t}
                 </div>
@@ -143,7 +143,7 @@ export default function GrowPage() {
 
             {/* Stats */}
             <div className="fu4" style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10, maxWidth:420 }}>
-              {[['50Cr+','Revenue generated'],['30%','Avg CAC reduction'],['10M+','Influencer views']].map(([v,l]) => (
+              {[['100Cr+','Revenue impacted (last FY)'],['500M+','Content views produced'],['30%','Avg CAC reduction']].map(([v,l]) => (
                 <div key={l} className="card-hover" style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, padding:'12px 14px' }}>
                   <div style={{ fontSize:22, fontWeight:900, ...grad, marginBottom:3 }}>{v}</div>
                   <div style={{ fontSize:9, color:'rgba(255,255,255,0.35)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>{l}</div>
@@ -184,8 +184,8 @@ export default function GrowPage() {
 
                   {/* Budget qualifier */}
                   <div style={{ background:'rgba(255,0,128,0.04)', border:'1px solid rgba(255,0,128,0.15)', borderRadius:12, padding:'12px 14px' }}>
-                    <label style={{ ...lbl, color:'#ff0080', marginBottom:10 }}>Monthly marketing budget *</label>
-                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6 }}>
+                    <label style={{ ...lbl, color:'#ff0080', marginBottom:10 }}>Monthly ad spend *</label>
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:6 }}>
                       {BUDGETS.map(b => (
                         <button type="button" key={b} className={`budget-opt${form.budget===b?' active':''}`} onClick={() => f('budget', b)}>{b}</button>
                       ))}
@@ -261,7 +261,7 @@ export default function GrowPage() {
           <h2 style={{ fontSize:'clamp(24px,4vw,38px)', fontWeight:900, letterSpacing:'-1.5px', marginBottom:32 }}>We're the right fit <span style={grad}>if...</span></h2>
           <div className="who-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
             {[
-              { c:'#10b981', bg:'rgba(16,185,129,0.05)', border:'rgba(16,185,129,0.15)', t:'You have a real budget', d:'We work with brands spending ₹2L+ on marketing monthly. We\'re not the cheapest — we\'re the most effective.' },
+              { c:'#10b981', bg:'rgba(16,185,129,0.05)', border:'rgba(16,185,129,0.15)', t:'You have a real budget', d:'We work with brands spending Rs.5L+ monthly on ads. Not the cheapest option out there — the most effective one.' },
               { c:'#10b981', bg:'rgba(16,185,129,0.05)', border:'rgba(16,185,129,0.15)', t:'You want a true partner', d:'You need someone as invested in your numbers as you are — not a vendor who disappears after onboarding.' },
               { c:'#fca5a5', bg:'rgba(220,38,38,0.05)', border:'rgba(220,38,38,0.15)', t:'Not a fit if...', d:'You\'re looking for the cheapest option or a team that just executes without thinking.' },
               { c:'#fca5a5', bg:'rgba(220,38,38,0.05)', border:'rgba(220,38,38,0.15)', t:'Not a fit if...', d:'You need 3-month onboarding timelines. We move fast and expect the same from our clients.' },
