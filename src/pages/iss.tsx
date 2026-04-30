@@ -429,21 +429,32 @@ export default function ISSProposal() {
                 </div>
               </div>
               {!isMobile && (
-                <div className="fu2" style={{ display:'flex', flexDirection:'column', gap:10 }}>
-                  <div style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:4 }}>Our work speaks</div>
-                  {CLIENTS.map(c => (
-                    <div key={c.name}
-                      onMouseEnter={() => setHoveredClient(c.name)}
-                      onMouseLeave={() => setHoveredClient(null)}
-                      style={{ position:'relative', borderRadius:16, overflow:'hidden', border:`1px solid ${hoveredClient===c.name?c.color+'50':'rgba(255,255,255,0.07)'}`, cursor:'default', transition:'all .3s', height: hoveredClient===c.name ? 120 : 60 }}>
-                      <img src={c.img} alt={c.name} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center', display:'block', transition:'all .3s' }} />
-                      <div style={{ position:'absolute', inset:0, background:`linear-gradient(90deg,rgba(5,5,8,0.8) 0%,rgba(5,5,8,0.3) 100%)` }} />
-                      <div style={{ position:'absolute', bottom:10, left:14, display:'flex', alignItems:'center', gap:8 }}>
-                        <span style={{ fontSize:13, fontWeight:800, color:'#fff' }}>{c.name}</span>
-                        <span style={{ fontSize:9, padding:'2px 8px', borderRadius:99, background:`${c.color}20`, color:c.color, fontWeight:700, border:`1px solid ${c.color}30` }}>{c.tag}</span>
+                <div className="fu2">
+                  <div style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:12 }}>Our work speaks</div>
+                  <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
+                    {CLIENTS.map(c => (
+                      <div key={c.name}
+                        onMouseEnter={() => setHoveredClient(c.name)}
+                        onMouseLeave={() => setHoveredClient(null)}
+                        style={{ borderRadius:16, overflow:'hidden', border:`1px solid ${hoveredClient===c.name?c.color+'50':'rgba(255,255,255,0.07)'}`, cursor:'default', transition:'all .3s cubic-bezier(.16,1,.3,1)', transform: hoveredClient===c.name?'translateY(-4px)':'none', boxShadow: hoveredClient===c.name?`0 16px 40px ${c.color}20`:'' }}>
+                        <div style={{ position:'relative', paddingBottom:'120%', overflow:'hidden' }}>
+                          <img src={c.img} alt={c.name} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center', display:'block', transition:'transform .5s cubic-bezier(.16,1,.3,1)', transform: hoveredClient===c.name?'scale(1.06)':'scale(1)' }} />
+                          <div style={{ position:'absolute', inset:0, background:`linear-gradient(0deg, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.3) 60%, transparent 100%)` }} />
+                          <div style={{ position:'absolute', top:10, left:10 }}>
+                            <span style={{ fontSize:8, padding:'2px 8px', borderRadius:99, background:`${c.color}20`, color:c.color, fontWeight:700, border:`1px solid ${c.color}30`, textTransform:'uppercase', letterSpacing:'0.08em' }}>{c.tag}</span>
+                          </div>
+                          <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'10px 12px' }}>
+                            <div style={{ fontSize:13, fontWeight:900, color:'#fff', marginBottom:2 }}>{c.name}</div>
+                            <div style={{ fontSize:9, color:'rgba(255,255,255,0.5)', lineHeight:1.5 }}>{
+                              c.name==='Snitch'?'100 ads/month · Lowest CPI':
+                              c.name==='RWDY'?'5x growth · Full mandate':
+                              '30% ↓ CAC · 60% brand lift'
+                            }</div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
