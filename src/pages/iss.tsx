@@ -7,6 +7,8 @@ export default function ISSProposal() {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
   const [camRot, setCamRot] = useState({ x: 0, y: 0 })
   const [hoveredClient, setHoveredClient] = useState<string|null>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0, z: 0 })
+  const [isMobileGated, setIsMobileGated] = useState(false)
   const [teaBoiling, setTeaBoiling] = useState(false)
   const [teaProgress, setTeaProgress] = useState(0)
   const teaRef = useRef<any>(null)
@@ -16,6 +18,14 @@ export default function ISSProposal() {
     const onResize = () => setIsMobile(window.innerWidth < 768)
     onResize()
     window.addEventListener('resize', onResize)
+    // Mobile gate + gyroscope tilt
+    if (window.innerWidth < 768) setIsMobileGated(true)
+
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      setTilt({ x: e.beta || 0, y: e.gamma || 0, z: e.alpha || 0 })
+    }
+    window.addEventListener('deviceorientation', onOrientation, true)
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') setCur(c => Math.min(c+1, TOTAL-1))
       if (e.key === 'ArrowLeft') setCur(c => Math.max(c-1, 0))
@@ -30,6 +40,7 @@ export default function ISSProposal() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('keydown', onKey)
       window.removeEventListener('mousemove', onMouse)
+      window.removeEventListener('deviceorientation', onOrientation)
     }
   }, [])
 
@@ -88,6 +99,47 @@ export default function ISSProposal() {
           @media print{nav,.dots-bar{display:none!important}body,html{overflow:visible!important;height:auto!important}}
         `}</style>
       </Head>
+
+      {/* Mobile gate */}
+      {isMobileGated && (
+        <div style={{ position:'fixed', inset:0, background:'#050508', zIndex:9999, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'2rem', overflow:'hidden' }}>
+          <div style={{ position:'absolute', top:'-20%', left:'-20%', width:'80vw', height:'80vw', background:'radial-gradient(circle,rgba(255,0,128,0.12) 0%,transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', bottom:'-20%', right:'-20%', width:'70vw', height:'70vw', background:'radial-gradient(circle,rgba(0,80,255,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ position:'relative', zIndex:1, textAlign:'center' }}>
+            {/* Rotating favicon */}
+            <div style={{ marginBottom:28, transform:`rotateX(${tilt.x*0.3}deg) rotateY(${tilt.y*0.3}deg)`, transition:'transform .1s', perspective:800 }}>
+              <img src="/Growster-Favicon.png" alt="Growster"
+                style={{ width:80, height:80, borderRadius:'50%', objectFit:'cover', border:'2px solid rgba(255,0,128,0.4)', boxShadow:`0 0 ${20+Math.abs(tilt.y)*0.5}px rgba(255,0,128,${0.2+Math.abs(tilt.y)*0.005})`, transform:`rotate(${tilt.z*0.1}deg)`, transition:'all .1s' }} />
+            </div>
+            <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', color:'#ff0080', background:'rgba(255,0,128,0.1)', border:'1px solid rgba(255,0,128,0.2)', padding:'4px 14px', borderRadius:99, marginBottom:20, display:'inline-block' }}>Growster × ISS</div>
+            <h1 style={{ fontSize:28, fontWeight:900, color:'#fff', letterSpacing:'-1px', lineHeight:1.2, marginBottom:12 }}>
+              Our proposal looks<br/>better on a<br/><span style={{ background:'linear-gradient(135deg,#ff0080,#0050ff)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>desktop.</span>
+            </h1>
+            <p style={{ fontSize:13, color:'rgba(255,255,255,0.4)', lineHeight:1.7, marginBottom:32, maxWidth:280, margin:'0 auto 28px' }}>
+              Open <strong style={{ color:'rgba(255,255,255,0.7)' }}>growster.in/iss</strong> on your laptop or iPad for the full experience.
+            </p>
+            {/* Phone tilt indicator */}
+            <div style={{ padding:'14px 20px', borderRadius:16, background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', marginBottom:20, maxWidth:260, margin:'0 auto 20px' }}>
+              <div style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:10 }}>Tilt your phone ↕</div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+                <div style={{ textAlign:'center' }}>
+                  <div style={{ fontSize:18, fontWeight:900, color:'#ff0080' }}>{Math.round(tilt.x)}°</div>
+                  <div style={{ fontSize:9, color:'rgba(255,255,255,0.3)', fontWeight:600 }}>PITCH</div>
+                </div>
+                <div style={{ textAlign:'center' }}>
+                  <div style={{ fontSize:18, fontWeight:900, color:'#0050ff' }}>{Math.round(tilt.y)}°</div>
+                  <div style={{ fontSize:9, color:'rgba(255,255,255,0.3)', fontWeight:600 }}>ROLL</div>
+                </div>
+              </div>
+              {/* Tilt bar */}
+              <div style={{ marginTop:10, height:4, background:'rgba(255,255,255,0.06)', borderRadius:99, overflow:'hidden' }}>
+                <div style={{ height:'100%', width:`${Math.min(Math.abs(tilt.y)/45*100, 100)}%`, background:'linear-gradient(90deg,#ff0080,#0050ff)', borderRadius:99, transition:'width .1s', marginLeft:`${50-Math.min(Math.abs(tilt.y)/45*50,50)}%` }} />
+              </div>
+            </div>
+            <div style={{ fontSize:11, color:'rgba(255,255,255,0.2)', letterSpacing:'0.05em' }}>Growster · Confidential Proposal</div>
+          </div>
+        </div>
+      )}
 
       {/* Nav */}
       <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, height:52, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 1.5rem', background:'rgba(5,5,8,0.92)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
