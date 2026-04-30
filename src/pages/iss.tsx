@@ -16,6 +16,7 @@ export default function ISSProposal() {
   const [cur, setCur] = useState(0)
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 })
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 640)
@@ -23,6 +24,8 @@ export default function ISSProposal() {
     window.addEventListener('resize', onResize)
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
+    const onMouse = (e: MouseEvent) => setMousePos({ x:(e.clientX/window.innerWidth)*100, y:(e.clientY/window.innerHeight)*100 })
+    window.addEventListener('mousemove', onMouse, { passive:true })
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') setCur(c => Math.min(c+1, SLIDES.length-1))
       if (e.key === 'ArrowLeft') setCur(c => Math.max(c-1, 0))
@@ -32,6 +35,7 @@ export default function ISSProposal() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('keydown', onKey)
+      window.removeEventListener('mousemove', onMouse)
     }
   }, [])
 
@@ -114,20 +118,34 @@ export default function ISSProposal() {
           <div key="logo" style={{ ...s.slide }}>
             <div style={{ position:'absolute', top:'-20%', left:'-10%', width:'70vw', height:'70vw', background:'radial-gradient(circle,rgba(255,0,128,0.13) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 4s ease-in-out infinite' }} />
             <div style={{ position:'absolute', bottom:'-20%', right:'-10%', width:'60vw', height:'60vw', background:'radial-gradient(circle,rgba(0,80,255,0.1) 0%,transparent 70%)', pointerEvents:'none', animation:'glow 5s ease-in-out infinite 1s' }} />
-            <div style={{ textAlign:'center', position:'relative', zIndex:1 }}>
-              <div className="fade-up" style={{ marginBottom:24 }}>
-                <img src="/Growster-Favicon.png" alt="Growster" style={{ width:72, height:72, borderRadius:'50%', objectFit:'cover', border:'2px solid rgba(255,0,128,0.3)', boxShadow:'0 0 40px rgba(255,0,128,0.2)' }} />
+            <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 1fr', gap:40, position:'relative', zIndex:1, alignItems:'center', width:'100%', maxWidth:1100 }}>
+              <div style={{ textAlign: isMobile?'center':'left' }}>
+                <div className="fade-up" style={{ marginBottom:24 }}>
+                  <img src="/Growster-Favicon.png" alt="Growster" style={{ width:72, height:72, borderRadius:'50%', objectFit:'cover', border:'2px solid rgba(255,0,128,0.3)', boxShadow:'0 0 40px rgba(255,0,128,0.2)' }} />
+                </div>
+                <div className="fade-up-1" style={{ fontSize: isMobile ? 48 : 80, fontWeight:900, letterSpacing:'-3px', lineHeight:1, marginBottom:10 }}>
+                  Growster<span style={{ color:'#ff0080' }}>.</span>
+                </div>
+                <div className="fade-up-2" style={{ fontSize:13, color:'rgba(255,255,255,0.4)', fontWeight:700, letterSpacing:'0.25em', textTransform:'uppercase', marginBottom:36 }}>Growth Marketing</div>
+                <div className="fade-up-3" style={{ display:'flex', alignItems:'center', gap:16, justifyContent: isMobile?'center':'flex-start' }}>
+                  <div style={{ height:1, width:40, background:'linear-gradient(90deg,transparent,rgba(255,255,255,0.2))' }} />
+                  <span style={{ fontSize:11, color:'rgba(255,255,255,0.3)', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase' }}>× Indian Startup School</span>
+                  <div style={{ height:1, width:40, background:'linear-gradient(90deg,rgba(255,255,255,0.2),transparent)' }} />
+                </div>
+                <div className="fade-up-4" style={{ marginTop:24, fontSize:11, color:'rgba(255,255,255,0.2)', fontWeight:600 }}>A Growth Proposal · Confidential</div>
               </div>
-              <div className="fade-up-1" style={{ fontSize: isMobile ? 48 : 80, fontWeight:900, letterSpacing:'-3px', lineHeight:1, marginBottom:10 }}>
-                Growster<span style={{ color:'#ff0080' }}>.</span>
-              </div>
-              <div className="fade-up-2" style={{ fontSize:13, color:'rgba(255,255,255,0.4)', fontWeight:700, letterSpacing:'0.25em', textTransform:'uppercase', marginBottom:36 }}>Growth Marketing</div>
-              <div className="fade-up-3" style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:16 }}>
-                <div style={{ height:1, width:60, background:'linear-gradient(90deg,transparent,rgba(255,255,255,0.2))' }} />
-                <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase' }}>× Indian Startup School</span>
-                <div style={{ height:1, width:60, background:'linear-gradient(90deg,rgba(255,255,255,0.2),transparent)' }} />
-              </div>
-              <div className="fade-up-4" style={{ marginTop:32, fontSize:12, color:'rgba(255,255,255,0.2)', fontWeight:600 }}>A Growth Proposal · Confidential</div>
+              {!isMobile && (
+                <div className="fade-up-2" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                  {[['50Cr+','Revenue generated'],['10M+','Influencer views'],['5x','Client growth'],['30%','Avg CAC drop']].map(([v,l]) => (
+                    <div key={l} style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:16, padding:'1.25rem', transition:'all 0.3s' }}
+                      onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.borderColor='rgba(255,0,128,0.25)' }}
+                      onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)' }}>
+                      <div style={{ fontSize:28, fontWeight:900, background:'linear-gradient(135deg,#ff0080,#0050ff)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', marginBottom:4 }}>{v}</div>
+                      <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.08em' }}>{l}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -136,7 +154,7 @@ export default function ISSProposal() {
         {cur === 1 && (
           <div key="about" style={{ ...s.slide, overflowY:'auto' }}>
             <div style={{ position:'absolute', top:'-10%', right:'-5%', width:'50vw', height:'50vw', background:'radial-gradient(circle,rgba(0,80,255,0.08) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:900 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 340px', gap:48, alignItems:'center', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(255,0,128,0.1)', color:'#ff0080', border:'1px solid rgba(255,0,128,0.2)' }}>Who we are</div>
               <h2 className="fade-up-1" style={s.h2}>Not an agency.<br/><span style={s.grad}>A growth partner.</span></h2>
               <p className="fade-up-2" style={{ ...s.body, maxWidth:560 }}>We operate as your internal marketing team — founder-led, brand-first, performance-aware. We push solutions that benefit you, not us.</p>
@@ -161,7 +179,7 @@ export default function ISSProposal() {
         {cur === 2 && (
           <div key="vision" style={{ ...s.slide }}>
             <div style={{ position:'absolute', top:'-10%', left:'-10%', width:'60vw', height:'60vw', background:'radial-gradient(circle,rgba(255,0,128,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:860 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 320px', gap:48, alignItems:'center', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(139,92,246,0.1)', color:'#a78bfa', border:'1px solid rgba(139,92,246,0.2)' }}>Our vision for ISS</div>
               <h2 className="fade-up-1" style={s.h2}>Position Shivang as<br/><span style={s.grad}>the ecosystem's voice.</span></h2>
               <p className="fade-up-2" style={{ ...s.body, maxWidth:580 }}>Make ISS the go-to place for founders to find their tribe, their calling, and their edge. Shivang leads as the domain expert — not just a school head, but the startup ecosystem's defining authority.</p>
@@ -185,7 +203,7 @@ export default function ISSProposal() {
         {cur === 3 && (
           <div key="ips" style={{ ...s.slide, overflowY:'auto' }}>
             <div style={{ position:'absolute', bottom:'-10%', right:'-5%', width:'50vw', height:'50vw', background:'radial-gradient(circle,rgba(245,158,11,0.07) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:900 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 280px', gap:40, alignItems:'center', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(245,158,11,0.1)', color:'#fcd34d', border:'1px solid rgba(245,158,11,0.2)' }}>Content IPs</div>
               <h2 className="fade-up-1" style={s.h2}>Recurring formats that<br/><span style={s.grad}>build a universe.</span></h2>
               <div className="fade-up-2" style={{ display:'grid', gap:10 }}>
@@ -211,7 +229,7 @@ export default function ISSProposal() {
         {cur === 4 && (
           <div key="signature" style={{ ...s.slide }}>
             <div style={{ position:'absolute', top:'-10%', right:'-5%', width:'55vw', height:'55vw', background:'radial-gradient(circle,rgba(255,0,128,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:900 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(255,0,128,0.1)', color:'#ff0080', border:'1px solid rgba(255,0,128,0.2)' }}>Signature IPs</div>
               <h2 className="fade-up-1" style={s.h2}>Two formats that become<br/><span style={s.grad}>unmissable.</span></h2>
               <div className="two-col fade-up-2" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
@@ -236,7 +254,7 @@ export default function ISSProposal() {
         {cur === 5 && (
           <div key="propose" style={{ ...s.slide, overflowY:'auto' }}>
             <div style={{ position:'absolute', bottom:'-10%', left:'-5%', width:'50vw', height:'50vw', background:'radial-gradient(circle,rgba(0,80,255,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:900 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 260px', gap:48, alignItems:'center', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(16,185,129,0.1)', color:'#34d399', border:'1px solid rgba(16,185,129,0.2)' }}>What we propose</div>
               <h2 className="fade-up-1" style={s.h2}>A full mandate.<br/><span style={s.grad}>Four pillars.</span></h2>
               <div className="two-col fade-up-2" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
@@ -264,7 +282,7 @@ export default function ISSProposal() {
         {cur === 6 && (
           <div key="why" style={{ ...s.slide }}>
             <div style={{ position:'absolute', top:'-10%', right:'-5%', width:'60vw', height:'60vw', background:'radial-gradient(circle,rgba(255,0,128,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
-            <div style={{ position:'relative', zIndex:1, maxWidth:800 }}>
+            <div style={{ position:'relative', zIndex:1, width:'100%', display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 280px', gap:48, alignItems:'center', maxWidth:1100 }}>
               <div className="fade-up" style={{ ...s.pill, background:'rgba(255,0,128,0.1)', color:'#ff0080', border:'1px solid rgba(255,0,128,0.2)' }}>Why Growster</div>
               <h2 className="fade-up-1" style={s.h2}>We don't take<br/><span style={s.grad}>every client.</span></h2>
               <div className="fade-up-2" style={{ display:'grid', gap:10, maxWidth:580, marginBottom:24 }}>

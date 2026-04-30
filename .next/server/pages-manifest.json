@@ -1,9 +1,9 @@
 {
-  "/brandbook": "pages/brandbook.html",
-  "/portfolio": "pages/portfolio.html",
-  "/": "pages/index.html",
   "/404": "pages/404.html",
+  "/brandbook": "pages/brandbook.html",
+  "/": "pages/index.html",
   "/iss": "pages/iss.html",
+  "/portfolio": "pages/portfolio.html",
   "/story": "pages/story.html",
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
