@@ -6,7 +6,15 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 
 const BUDGETS = ['Under ₹2L', '₹2L – ₹5L', '₹5L – ₹15L', '₹15L+']
 const SERVICES = ['Brand Films & Content', 'Performance Marketing', 'Social Media Management', 'Full mandate — all three']
-const LOGOS = ['Snitch','Virgio','RWDY','Skyhigh','Ugees','Kalamandir']
+const LOGOS = [
+  { name:'Snitch', img:'/growster-website/Snitch Logo.png', color:'#ff0080' },
+  { name:'Zouk', img:'/growster-website/Zouk Logo.png', color:'#f59e0b' },
+  { name:'RWDY', img:'/growster-website/RWDY logo.png', color:'#0050ff' },
+  { name:'Virgio', img:'/growster-website/Virgio Thumbnail.png', color:'#8b5cf6' },
+  { name:'Skyhigh', img:'', color:'#10b981' },
+  { name:'Ugees', img:'', color:'#f59e0b' },
+  { name:'Kalamandir', img:'', color:'#06b6d4' },
+]
 const LOGO_COLORS: Record<string,string> = { Snitch:'#ff0080', Virgio:'#8b5cf6', RWDY:'#0050ff', Skyhigh:'#10b981', Ugees:'#f59e0b', Kalamandir:'#06b6d4' }
 
 export default function GrowPage() {
@@ -210,8 +218,14 @@ export default function GrowPage() {
         <div style={{ display:'flex', gap:0, animation:'marquee 20s linear infinite', width:'200%' }}>
           {[...LOGOS,...LOGOS].map((l,i) => (
             <div key={i} style={{ display:'flex', alignItems:'center', gap:8, padding:'0 32px', whiteSpace:'nowrap', flexShrink:0 }}>
-              <div style={{ width:6, height:6, borderRadius:'50%', background:LOGO_COLORS[l]||'#ff0080' }} />
-              <span style={{ fontSize:13, fontWeight:700, color:'rgba(255,255,255,0.4)' }}>{l}</span>
+              {l.img ? (
+                <img src={l.img} alt={l.name} style={{ height:18, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:.45 }} />
+              ) : (
+                <>
+                  <div style={{ width:5, height:5, borderRadius:'50%', background:l.color }} />
+                  <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.35)' }}>{l.name}</span>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -258,6 +272,52 @@ export default function GrowPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── CASE STUDIES ── */}
+      <section style={{ maxWidth:1100, margin:'0 auto', padding: isMobile?'4rem 1.5rem':'5rem 2rem', position:'relative', zIndex:1 }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:32, flexWrap:'wrap', gap:12 }}>
+          <div>
+            <div style={{ display:'inline-block', padding:'4px 14px', borderRadius:99, fontSize:10, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', background:'rgba(0,80,255,0.1)', color:'#60a5fa', border:'1px solid rgba(0,80,255,0.2)', marginBottom:12 }}>Case Studies</div>
+            <h2 style={{ fontSize:'clamp(24px,4vw,38px)', fontWeight:900, letterSpacing:'-1.5px' }}>Work that speaks<br/><span style={grad}>louder than any pitch.</span></h2>
+          </div>
+          <a href="/portfolio" data-hover style={{ padding:'10px 22px', borderRadius:99, border:'1px solid rgba(255,255,255,0.12)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.6)', fontSize:13, fontWeight:700, textDecoration:'none', whiteSpace:'nowrap', transition:'all .2s', display:'inline-block' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(255,0,128,0.4)'; e.currentTarget.style.color='#ff0080' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.color='rgba(255,255,255,0.6)' }}>
+            View full portfolio →
+          </a>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr':'repeat(4,1fr)', gap:14 }}>
+          {[
+            { name:'Snitch', color:'#ff0080', tag:'Performance', img:'/growster-website/Snitch Thumbnail.png', logo:'/growster-website/Snitch Logo.png', stat:'#1 Lowest CPI', stat2:'100 ads/mo' },
+            { name:'Zouk', color:'#f59e0b', tag:'Vertical Assets', img:'/growster-website/Zouk Thumbnail.png', logo:'/growster-website/Zouk Logo.png', stat:'2x Revenue', stat2:'ROAS growth' },
+            { name:'RWDY', color:'#0050ff', tag:'Full Mandate', img:'/growster-website/RWDY Thumbnail.png', logo:'/growster-website/RWDY logo.png', stat:'5x Growth', stat2:'2 years' },
+            { name:'Virgio', color:'#8b5cf6', tag:'Brand Films', img:'/growster-website/Virgio Thumbnail.png', logo:'/growster-website/Virgio Thumbnail.png', stat:'30% ↓ CAC', stat2:'60% brand lift' },
+          ].map(c => (
+            <a key={c.name} href="/portfolio" data-hover style={{ textDecoration:'none', display:'block', borderRadius:20, overflow:'hidden', border:`1px solid rgba(255,255,255,0.07)`, background:'rgba(255,255,255,0.02)', transition:'all .35s cubic-bezier(.16,1,.3,1)' }}
+              onMouseEnter={e => { e.currentTarget.style.transform='translateY(-6px)'; e.currentTarget.style.borderColor=`${c.color}40`; e.currentTarget.style.boxShadow=`0 20px 50px ${c.color}18` }}
+              onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'; e.currentTarget.style.boxShadow='' }}>
+              <div style={{ position:'relative', paddingBottom:'110%', overflow:'hidden' }}>
+                <img src={c.img} alt={c.name} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center', display:'block', transition:'transform .5s cubic-bezier(.16,1,.3,1)' }}
+                  onMouseEnter={e => e.currentTarget.style.transform='scale(1.06)'}
+                  onMouseLeave={e => e.currentTarget.style.transform=''} />
+                <div style={{ position:'absolute', inset:0, background:`linear-gradient(0deg, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.3) 55%, transparent 100%)` }} />
+                <div style={{ position:'absolute', top:10, left:10 }}>
+                  <span style={{ fontSize:8, padding:'2px 8px', borderRadius:99, background:`${c.color}20`, color:c.color, fontWeight:700, border:`1px solid ${c.color}30`, textTransform:'uppercase', letterSpacing:'0.08em' }}>{c.tag}</span>
+                </div>
+                <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'12px 14px' }}>
+                  <img src={c.logo} alt={c.name} style={{ height:18, objectFit:'contain', filter:'brightness(0) invert(1)', opacity:.85, marginBottom:6, display:'block' }} />
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6 }}>
+                    <div style={{ background:`${c.color}18`, border:`1px solid ${c.color}25`, borderRadius:8, padding:'5px 8px' }}>
+                      <div style={{ fontSize:11, fontWeight:900, color:c.color }}>{c.stat}</div>
+                      <div style={{ fontSize:8, color:'rgba(255,255,255,0.4)', fontWeight:600 }}>{c.stat2}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
         </div>
       </section>
 
