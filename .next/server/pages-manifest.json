@@ -1,12 +1,13 @@
 {
-  "/brandbook": "pages/brandbook.html",
   "/404": "pages/404.html",
+  "/brandbook": "pages/brandbook.html",
+  "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/grow": "pages/grow.html",
   "/": "pages/index.html",
   "/iss": "pages/iss.html",
   "/portfolio": "pages/portfolio.html",
   "/story": "pages/story.html",
-  "/_error": "pages/_error.js",
   "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js"
 }
