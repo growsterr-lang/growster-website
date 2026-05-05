@@ -52,7 +52,7 @@ export default function GrowPage() {
       await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
         method:'POST',
         headers:{ 'Content-Type':'application/json', apikey:SUPABASE_ANON, Authorization:`Bearer ${SUPABASE_ANON}`, Prefer:'return=minimal' },
-        body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service}`, source:'grow-page' })
+        body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service}` })
       })
       setStatus('success')
       // Fire Meta Pixel Lead event
