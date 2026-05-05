@@ -55,6 +55,10 @@ export default function GrowPage() {
         body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service}`, source:'grow-page' })
       })
       setStatus('success')
+      // Fire Meta Pixel Lead event
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', { content_name: form.service, content_category: form.budget })
+      }
     } catch {
       setStatus('error')
     }
