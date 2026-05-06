@@ -323,6 +323,44 @@ export default function GrowPage() {
         </div>
       </section>
 
+      {/* ── BRAND FILMS ── */}
+      <section style={{ background:'rgba(255,255,255,0.015)', borderTop:'1px solid rgba(255,255,255,0.06)', borderBottom:'1px solid rgba(255,255,255,0.06)', padding: isMobile?'4rem 1.5rem':'5rem 2rem', position:'relative', zIndex:1 }}>
+        <div style={{ maxWidth:1100, margin:'0 auto' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:36, flexWrap:'wrap', gap:12 }}>
+            <div>
+              <div style={{ display:'inline-block', padding:'4px 14px', borderRadius:99, fontSize:10, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', background:'rgba(0,80,255,0.1)', color:'#60a5fa', border:'1px solid rgba(0,80,255,0.2)', marginBottom:14 }}>Brand Films</div>
+              <h2 style={{ fontSize:'clamp(24px,4vw,40px)', fontWeight:900, letterSpacing:'-1.5px', marginBottom:8 }}>Content people <span style={grad}>actually watch.</span></h2>
+              <p style={{ fontSize:13, color:'rgba(255,255,255,0.4)', maxWidth:440, lineHeight:1.7 }}>A quick look at the standard we hold ourselves to — presence, polish, and clarity. This is what we bring to every client.</p>
+            </div>
+            <a href="/portfolio" data-hover style={{ padding:'10px 22px', borderRadius:99, border:'1px solid rgba(255,255,255,0.12)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.6)', fontSize:13, fontWeight:700, textDecoration:'none', whiteSpace:'nowrap', transition:'all .2s' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(255,0,128,0.4)'; e.currentTarget.style.color='#ff0080' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.color='rgba(255,255,255,0.6)' }}>
+              See all our work →
+            </a>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 1fr', gap:20 }}>
+            {[
+              { id:'eZdbXBqgqn4', title:'We Are MORE Than That', client:'Growster × Brand Film' },
+              { id:'rxr6q2wLbx8', title:'The Devil Wears Virgio', client:'Virgio × Brand Film' },
+            ].map(v => (
+              <div key={v.id} style={{ borderRadius:18, overflow:'hidden', background:'#000', boxShadow:'0 20px 60px rgba(0,0,0,0.5)', border:'1px solid rgba(255,255,255,0.08)', transition:'transform .3s cubic-bezier(.16,1,.3,1)' }}
+                onMouseEnter={e => e.currentTarget.style.transform='translateY(-6px)'}
+                onMouseLeave={e => e.currentTarget.style.transform=''}>
+                <div style={{ position:'relative', paddingBottom:'56.25%' }}>
+                  <iframe src={`https://www.youtube.com/embed/${v.id}?autoplay=1&mute=1&loop=1&playlist=${v.id}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+                    title={v.title} allow="autoplay; encrypted-media" allowFullScreen
+                    style={{ position:'absolute', top:0, left:0, width:'100%', height:'100%', border:'none' }} />
+                </div>
+                <div style={{ padding:'12px 16px', background:'rgba(0,0,0,0.85)' }}>
+                  <div style={{ fontSize:9, color:'rgba(255,255,255,0.3)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:4 }}>{v.client}</div>
+                  <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>{v.title}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── FINAL CTA ── */}
       <section style={{ padding: isMobile?'4rem 1.5rem':'6rem 2rem', textAlign:'center', position:'relative', zIndex:1, overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'80vw', height:'80vw', maxWidth:700, background:`radial-gradient(circle at ${lightPos.x}% ${lightPos.y}%, rgba(255,0,128,0.08), transparent 70%)`, pointerEvents:'none', transition:'background .1s' }} />

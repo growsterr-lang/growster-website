@@ -7,7 +7,7 @@
   "/grow": "pages/grow.html",
   "/": "pages/index.html",
   "/iss": "pages/iss.html",
-  "/story": "pages/story.html",
   "/portfolio": "pages/portfolio.html",
+  "/story": "pages/story.html",
   "/_error": "pages/_error.js"
 }
