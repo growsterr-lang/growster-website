@@ -18,7 +18,7 @@ const LOGOS = [
 const LOGO_COLORS: Record<string,string> = { Snitch:'#ff0080', Virgio:'#8b5cf6', RWDY:'#0050ff', Skyhigh:'#10b981', Ugees:'#f59e0b', Kalamandir:'#06b6d4' }
 
 export default function GrowPage() {
-  const [form, setForm] = useState({ name:'', brand:'', phone:'', budget:'', service:'' })
+  const [form, setForm] = useState({ name:'', brand:'', phone:'', budget:'', service:'', current_revenue:'', target_revenue:'' })
   const [status, setStatus] = useState<'idle'|'loading'|'success'|'error'>('idle')
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -26,6 +26,16 @@ export default function GrowPage() {
   const formRef = useRef<HTMLDivElement>(null)
 
   const f = (k: string, v: string) => setForm(p => ({ ...p, [k]: v }))
+  const [utmData, setUtmData] = useState<Record<string,string>>({})
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const utm: Record<string,string> = {} as Record<string,string>
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(key => {
+      if (params.get(key)) utm[key] = params.get(key)!
+    })
+    setUtmData(utm)
+  }, [])
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
@@ -52,7 +62,7 @@ export default function GrowPage() {
       await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
         method:'POST',
         headers:{ 'Content-Type':'application/json', apikey:SUPABASE_ANON, Authorization:`Bearer ${SUPABASE_ANON}`, Prefer:'return=minimal' },
-        body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service}` })
+        body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service} | Revenue: ${form.current_revenue} → ${form.target_revenue}`, utm_data: Object.keys(utmData).length ? utmData : null })
       })
       setStatus('success')
       // Fire Meta Pixel Lead event
@@ -207,6 +217,40 @@ export default function GrowPage() {
                       {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
+                </div>
+
+                {/* Revenue qualifier */}
+                <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:12, padding:'12px 14px', marginTop:4 }}>
+                  <div style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.35)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:10 }}>Revenue (helps us understand your scale)</div>
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                    <div>
+                      <label style={{ fontSize:9, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.08em', display:'block', marginBottom:5 }}>Current monthly revenue</label>
+                      <select style={{ ...inp, fontSize:12 }} value={form.current_revenue} onChange={e => f('current_revenue', e.target.value)}>
+                        <option value="">Select range</option>
+                        <option>Under ₹10L</option>
+                        <option>₹10L – ₹50L</option>
+                        <option>₹50L – ₹1Cr</option>
+                        <option>₹1Cr – ₹5Cr</option>
+                        <option>₹5Cr+</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize:9, fontWeight:700, color:'rgba(255,255,255,0.3)', textTransform:'uppercase', letterSpacing:'0.08em', display:'block', marginBottom:5 }}>Target monthly revenue</label>
+                      <select style={{ ...inp, fontSize:12 }} value={form.target_revenue} onChange={e => f('target_revenue', e.target.value)}>
+                        <option value="">Select range</option>
+                        <option>₹10L – ₹50L</option>
+                        <option>₹50L – ₹1Cr</option>
+                        <option>₹1Cr – ₹5Cr</option>
+                        <option>₹5Cr – ₹10Cr</option>
+                        <option>₹10Cr+</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Minimum billing notice */}
+                <div style={{ padding:'10px 14px', borderRadius:10, background:'rgba(255,0,128,0.04)', border:'1px solid rgba(255,0,128,0.12)', fontSize:11, color:'rgba(255,255,255,0.45)', lineHeight:1.65 }}>
+                  <span style={{ color:'#ff0080', fontWeight:700 }}>Minimum engagement starts at ₹80,000/month.</span> We work best with brands serious about scaling — like Snitch, RWDY, and Virgio. If you're looking for a one-time project, we're probably not the right fit.
                 </div>
 
                 <button type="submit" className="btn-primary" disabled={status==='loading'} style={{ width:'100%', marginTop:16, fontSize:14, padding:'13px', borderRadius:12 }}>
