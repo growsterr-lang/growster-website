@@ -56,13 +56,24 @@ export default function GrowPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!form.name || !form.phone || !form.budget) return
+    if (!form.name || !form.phone || !form.budget || !form.service) return
     setStatus('loading')
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
         method:'POST',
         headers:{ 'Content-Type':'application/json', apikey:SUPABASE_ANON, Authorization:`Bearer ${SUPABASE_ANON}`, Prefer:'return=minimal' },
-        body: JSON.stringify({ name:form.name, brand:form.brand, phone:form.phone, message:`Budget: ${form.budget} | Service: ${form.service} | Revenue: ${form.current_revenue} → ${form.target_revenue}`, utm_data: Object.keys(utmData).length ? utmData : null })
+        body: JSON.stringify({
+              name: form.name,
+              brand: form.brand,
+              phone: form.phone,
+              message: [
+                form.budget && `Budget: ${form.budget}`,
+                form.service && `Service: ${form.service}`,
+                form.current_revenue && `Current Revenue: ${form.current_revenue}`,
+                form.target_revenue && `Target Revenue: ${form.target_revenue}`,
+              ].filter(Boolean).join(' | '),
+              utm_data: Object.keys(utmData).length ? utmData : null
+            })
       })
       setStatus('success')
       // Fire Meta Pixel Lead event
@@ -253,7 +264,7 @@ export default function GrowPage() {
                   <span style={{ color:'#ff0080', fontWeight:700 }}>Minimum engagement starts at ₹80,000/month.</span> We work best with brands serious about scaling — like Snitch, RWDY, and Virgio. If you're looking for a one-time project, we're probably not the right fit.
                 </div>
 
-                <button type="submit" className="btn-primary" disabled={status==='loading'} style={{ width:'100%', marginTop:16, fontSize:14, padding:'13px', borderRadius:12 }}>
+                <button type="submit" className="btn-primary" disabled={status==='loading' || !form.budget || !form.service} style={{ width:'100%', marginTop:16, fontSize:14, padding:'13px', borderRadius:12 }}>
                   {status==='loading' ? 'Submitting...' : 'Book my discovery call →'}
                 </button>
                 <div style={{ fontSize:10, color:'rgba(255,255,255,0.2)', textAlign:'center', marginTop:10, lineHeight:1.7 }}>

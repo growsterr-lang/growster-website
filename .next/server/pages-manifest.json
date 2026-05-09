@@ -3,11 +3,11 @@
   "/_document": "pages/_document.js",
   "/404": "pages/404.html",
   "/brandbook": "pages/brandbook.html",
+  "/grow": "pages/grow.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/": "pages/index.html",
-  "/grow": "pages/grow.html",
   "/iss": "pages/iss.html",
-  "/portfolio": "pages/portfolio.html",
   "/story": "pages/story.html",
+  "/portfolio": "pages/portfolio.html",
   "/_error": "pages/_error.js"
 }
