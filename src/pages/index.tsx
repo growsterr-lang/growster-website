@@ -651,13 +651,13 @@ export default function TestSite() {
           <div className="desktop-nav" style={{ display:'flex', gap:2 }}>
             {[
               ['Services','services'],
-              ['Work','work'],
+              ['Work','/portfolio'],
               ['Content','content'],
               ['Contact','contact']
             ].map(([label, id]) => (
               <a
                 key={id}
-                href={`#${id}`}
+                href={id.startsWith('/') ? id : `#${id}`}
                 className={`nav-pill ${activeSection === id ? 'active' : ''}`}
               >
                 {label}
