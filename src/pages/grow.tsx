@@ -259,10 +259,7 @@ export default function GrowPage() {
                   </div>
                 </div>
 
-                {/* Minimum billing notice */}
-                <div style={{ padding:'10px 14px', borderRadius:10, background:'rgba(255,0,128,0.04)', border:'1px solid rgba(255,0,128,0.12)', fontSize:11, color:'rgba(255,255,255,0.45)', lineHeight:1.65 }}>
-                  <span style={{ color:'#ff0080', fontWeight:700 }}>Minimum engagement starts at ₹80,000/month.</span> We work best with brands serious about scaling — like Snitch, RWDY, and Virgio. If you're looking for a one-time project, we're probably not the right fit.
-                </div>
+
 
                 <button type="submit" className="btn-primary" disabled={status==='loading' || !form.budget || !form.service} style={{ width:'100%', marginTop:16, fontSize:14, padding:'13px', borderRadius:12 }}>
                   {status==='loading' ? 'Submitting...' : 'Book my discovery call →'}
