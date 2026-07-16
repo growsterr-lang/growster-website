@@ -18,7 +18,16 @@
     "afterFiles": [],
     "fallback": []
   },
-  "dynamicRoutes": [],
+  "dynamicRoutes": [
+    {
+      "page": "/[slug]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
   "staticRoutes": [
     {
       "page": "/",
@@ -31,12 +40,6 @@
       "regex": "^/404(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/404(?:/)?$"
-    },
-    {
-      "page": "/beneude",
-      "regex": "^/beneude(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/beneude(?:/)?$"
     },
     {
       "page": "/brandbook",

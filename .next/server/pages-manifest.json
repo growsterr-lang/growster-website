@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html",
-  "/beneude": "pages/beneude.html",
+  "/[slug]": "pages/[slug].html",
   "/brandbook": "pages/brandbook.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/grow": "pages/grow.html",
