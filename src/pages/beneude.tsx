@@ -78,7 +78,7 @@ export default function BeNeude() {
     if(appr!=='all'&&(r.approval_status||'pending')!==appr) return false
     return true
   })
-  const buckets=[...new Set(refs.filter(r=>prod==='all'||r.product===prod).map(r=>r.bucket))].sort()
+  const buckets=Array.from(new Set(refs.filter(r=>prod==='all'||r.product===prod).map(r=>r.bucket))).sort()
   const approved=refs.filter(r=>r.approval_status==='approved').length
   const rejected=refs.filter(r=>r.approval_status==='rejected').length
   const pending=refs.length-approved-rejected

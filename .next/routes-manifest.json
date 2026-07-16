@@ -33,6 +33,12 @@
       "namedRegex": "^/404(?:/)?$"
     },
     {
+      "page": "/beneude",
+      "regex": "^/beneude(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/beneude(?:/)?$"
+    },
+    {
       "page": "/brandbook",
       "regex": "^/brandbook(?:/)?$",
       "routeKeys": {},
