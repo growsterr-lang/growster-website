@@ -6,8 +6,8 @@
   "/brandbook": "pages/brandbook.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/grow": "pages/grow.html",
-  "/": "pages/index.html",
   "/iss": "pages/iss.html",
+  "/": "pages/index.html",
   "/portfolio": "pages/portfolio.html",
   "/story": "pages/story.html",
   "/_error": "pages/_error.js"
