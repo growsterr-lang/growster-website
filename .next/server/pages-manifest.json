@@ -1,15 +1,15 @@
 {
-  "/_document": "pages/_document.js",
   "/_app": "pages/_app.js",
-  "/[slug]": "pages/[slug].html",
+  "/_document": "pages/_document.js",
   "/404": "pages/404.html",
-  "/grow": "pages/grow.html",
+  "/[slug]": "pages/[slug].html",
   "/brandbook": "pages/brandbook.html",
-  "/": "pages/index.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/iss": "pages/iss.html",
+  "/": "pages/index.html",
+  "/grow": "pages/grow.html",
+  "/portfolio": "pages/portfolio.html",
   "/pcv": "pages/pcv.html",
   "/story": "pages/story.html",
-  "/portfolio": "pages/portfolio.html",
   "/_error": "pages/_error.js"
 }
