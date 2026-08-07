@@ -66,6 +66,12 @@
       "namedRegex": "^/iss(?:/)?$"
     },
     {
+      "page": "/pcv",
+      "regex": "^/pcv(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pcv(?:/)?$"
+    },
+    {
       "page": "/portfolio",
       "regex": "^/portfolio(?:/)?$",
       "routeKeys": {},
