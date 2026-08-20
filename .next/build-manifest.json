@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/qFMJo-3_u5rzSePhLnktH/_buildManifest.js",
-    "static/qFMJo-3_u5rzSePhLnktH/_ssgManifest.js"
+    "static/aTykM4J0OLeiaivV1mOc4/_buildManifest.js",
+    "static/aTykM4J0OLeiaivV1mOc4/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "rootMainFilesTree": {},
@@ -27,7 +27,7 @@
       "static/chunks/webpack-b4405ac1b2b64b0f.js",
       "static/chunks/framework-a6e0b7e30f98059a.js",
       "static/chunks/main-7b20253d3ae031d9.js",
-      "static/chunks/pages/[slug]-a46a51b999802972.js"
+      "static/chunks/pages/[slug]-9226e993a7a519e0.js"
     ],
     "/_app": [
       "static/chunks/webpack-b4405ac1b2b64b0f.js",
@@ -40,6 +40,12 @@
       "static/chunks/framework-a6e0b7e30f98059a.js",
       "static/chunks/main-7b20253d3ae031d9.js",
       "static/chunks/pages/_error-5366f00fee9a89ba.js"
+    ],
+    "/beneude/delivery": [
+      "static/chunks/webpack-b4405ac1b2b64b0f.js",
+      "static/chunks/framework-a6e0b7e30f98059a.js",
+      "static/chunks/main-7b20253d3ae031d9.js",
+      "static/chunks/pages/beneude/delivery-8cbd88709f942c13.js"
     ],
     "/brandbook": [
       "static/chunks/webpack-b4405ac1b2b64b0f.js",

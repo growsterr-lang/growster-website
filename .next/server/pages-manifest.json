@@ -1,15 +1,16 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/404": "pages/404.html",
+  "/_document": "pages/_document.js",
   "/[slug]": "pages/[slug].html",
+  "/beneude/delivery": "pages/beneude/delivery.html",
   "/brandbook": "pages/brandbook.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
+  "/grow": "pages/grow.html",
   "/iss": "pages/iss.html",
   "/": "pages/index.html",
-  "/grow": "pages/grow.html",
-  "/portfolio": "pages/portfolio.html",
-  "/pcv": "pages/pcv.html",
   "/story": "pages/story.html",
+  "/pcv": "pages/pcv.html",
+  "/portfolio": "pages/portfolio.html",
   "/_error": "pages/_error.js"
 }

@@ -169,13 +169,16 @@ export default function BrandDeck() {
         <span style={{width:1,height:16,background:'rgba(255,255,255,0.15)',display:'block'}}/>
         <span style={{fontSize:11,color:'rgba(255,255,255,0.35)',fontWeight:600}}>{brand?.name} · Ref Deck</span>
       </div>
-      <div style={{display:'flex',gap:16}}>
+      <div style={{display:'flex',gap:10,alignItems:'center'}}>
+        <a href={`/${slug}/delivery`} style={{padding:'7px 14px',borderRadius:99,border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'rgba(255,255,255,0.45)',fontSize:12,fontWeight:700,textDecoration:'none'}}>📦 Delivery</a>
+        <div style={{display:'flex',gap:16}}>
         {[{k:'approved',v:approved,c:'#10b981'},{k:'rejected',v:rejected,c:'#ff0080'},{k:'pending',v:pending,c:'rgba(255,255,255,0.3)'}].map(s=>(
           <div key={s.k} style={{textAlign:'center'}}>
             <div style={{fontSize:18,fontWeight:900,color:s.c,lineHeight:1}}>{s.v}</div>
             <div style={{fontSize:9,color:'rgba(255,255,255,0.25)',textTransform:'uppercase',letterSpacing:'0.12em',marginTop:2,fontWeight:700}}>{s.k}</div>
           </div>
         ))}
+        </div>
       </div>
     </nav>
 
