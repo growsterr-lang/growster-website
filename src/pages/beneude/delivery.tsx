@@ -47,13 +47,13 @@ export default function BeneudeDelivery() {
   async function load() {
     const h = {apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`}
     const [vr,ar] = await Promise.all([
-      fetch(`${SB_URL}/rest/v1/beneude_delivery?select=*&order=video_number`,{headers:h}),
+      fetch(`${SB_URL}/rest/v1/beneude_delivery?select=*&order=sno`,{headers:h}),
       fetch(`${SB_URL}/rest/v1/beneude_account_averages?select=*&limit=1`,{headers:h})
     ])
     const vd = await vr.json()
     const ad = await ar.json()
     const vs = Array.isArray(vd)?vd:[]
-    setVideos(vs)
+    setVideos(vs.sort((a:Video,b:Video)=>{ const an=parseInt(a.video_number||'0')||a.sno; const bn=parseInt(b.video_number||'0')||b.sno; return an-bn }))
     if(ad&&ad[0]){setAvgs(ad[0]);setAvgEdit(ad[0])}
     const f:Record<number,string>={}, p:Record<number,any>={}
     vs.forEach((v:Video)=>{ f[v.id]=v.brand_feedback||''; p[v.id]={cpm:v.cpm,ctr:v.ctr,hook_rate:v.hook_rate,spend:v.spend,roas:v.roas,aov:v.aov} })
