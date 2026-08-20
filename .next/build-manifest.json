@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/aTykM4J0OLeiaivV1mOc4/_buildManifest.js",
-    "static/aTykM4J0OLeiaivV1mOc4/_ssgManifest.js"
+    "static/BwT953WRbTKTVk3zhEnIn/_buildManifest.js",
+    "static/BwT953WRbTKTVk3zhEnIn/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "rootMainFilesTree": {},
@@ -45,7 +45,7 @@
       "static/chunks/webpack-b4405ac1b2b64b0f.js",
       "static/chunks/framework-a6e0b7e30f98059a.js",
       "static/chunks/main-7b20253d3ae031d9.js",
-      "static/chunks/pages/beneude/delivery-8cbd88709f942c13.js"
+      "static/chunks/pages/beneude/delivery-3d68adb0676ade5c.js"
     ],
     "/brandbook": [
       "static/chunks/webpack-b4405ac1b2b64b0f.js",

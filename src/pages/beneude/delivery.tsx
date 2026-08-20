@@ -5,7 +5,7 @@ const SB_URL = 'https://agrctbhbmusxtjstfvst.supabase.co'
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFncmN0YmhibXVzeHRqc3RmdnN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTcwODgsImV4cCI6MjA4OTMzMzA4OH0.4hXxsswtPE7PUnKNBWEOpiDRT8T2kMO0HaPUQ8fn2pQ'
 
 type Video = {
-  id: number; sno: number; product_name: string; video_link: string | null
+  id: number; sno: number; video_number: string | null; product_name: string; video_link: string | null
   brand_feedback: string | null; growster_notes: string | null
   cpm: number | null; ctr: number | null; hook_rate: number | null
   spend: number | null; roas: number | null; aov: number | null
@@ -47,7 +47,7 @@ export default function BeneudeDelivery() {
   async function load() {
     const h = {apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`}
     const [vr,ar] = await Promise.all([
-      fetch(`${SB_URL}/rest/v1/beneude_delivery?select=*&order=sno`,{headers:h}),
+      fetch(`${SB_URL}/rest/v1/beneude_delivery?select=*&order=video_number`,{headers:h}),
       fetch(`${SB_URL}/rest/v1/beneude_account_averages?select=*&limit=1`,{headers:h})
     ])
     const vd = await vr.json()
@@ -164,7 +164,10 @@ export default function BeneudeDelivery() {
                 <div style={{padding:'14px 18px',display:'grid',gridTemplateColumns:'40px 1fr 1fr 1fr auto',gap:14,alignItems:'start'}}>
                   <div style={{fontSize:13,fontWeight:700,color:'rgba(255,255,255,0.2)',paddingTop:4}}>#{v.sno}</div>
                   <div>
-                    <div style={{fontSize:13,fontWeight:700,color:'#fff',marginBottom:6}}>{v.product_name}</div>
+                    <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                      {v.video_number&&<span style={{fontSize:10,fontWeight:700,padding:'2px 8px',borderRadius:99,background:'rgba(255,0,128,0.1)',border:'1px solid rgba(255,0,128,0.2)',color:'#ff0080'}}>{v.video_number}</span>}
+                      <span style={{fontSize:13,fontWeight:700,color:'#fff'}}>{v.product_name}</span>
+                    </div>
                     {v.video_link?(
                       <a href={v.video_link} target="_blank" rel="noreferrer" style={{fontSize:11,fontWeight:700,color:'#60a5fa',textDecoration:'none'}}>▶ Watch video ↗</a>
                     ):(
