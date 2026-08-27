@@ -2,15 +2,15 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html",
-  "/[slug]": "pages/[slug].html",
   "/beneude/delivery": "pages/beneude/delivery.html",
+  "/[slug]": "pages/[slug].html",
   "/brandbook": "pages/brandbook.html",
   "/casestudies/snitch": "pages/casestudies/snitch.html",
   "/grow": "pages/grow.html",
   "/": "pages/index.html",
   "/iss": "pages/iss.html",
   "/portfolio": "pages/portfolio.html",
-  "/story": "pages/story.html",
   "/pcv": "pages/pcv.html",
+  "/story": "pages/story.html",
   "/_error": "pages/_error.js"
 }
