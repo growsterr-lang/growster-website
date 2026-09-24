@@ -21,6 +21,12 @@
   "dynamicRoutes": [],
   "staticRoutes": [
     {
+      "page": "/creative-volume",
+      "regex": "^/creative\\-volume(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creative\\-volume(?:/)?$"
+    },
+    {
       "page": "/grow",
       "regex": "^/grow(?:/)?$",
       "routeKeys": {},
