@@ -18,8 +18,47 @@
     "afterFiles": [],
     "fallback": []
   },
-  "dynamicRoutes": [],
+  "dynamicRoutes": [
+    {
+      "page": "/[slug]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
   "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/404",
+      "regex": "^/404(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/404(?:/)?$"
+    },
+    {
+      "page": "/beneude/delivery",
+      "regex": "^/beneude/delivery(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/beneude/delivery(?:/)?$"
+    },
+    {
+      "page": "/brandbook",
+      "regex": "^/brandbook(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/brandbook(?:/)?$"
+    },
+    {
+      "page": "/casestudies/snitch",
+      "regex": "^/casestudies/snitch(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/casestudies/snitch(?:/)?$"
+    },
     {
       "page": "/creative-volume",
       "regex": "^/creative\\-volume(?:/)?$",
@@ -31,6 +70,30 @@
       "regex": "^/grow(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/grow(?:/)?$"
+    },
+    {
+      "page": "/iss",
+      "regex": "^/iss(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/iss(?:/)?$"
+    },
+    {
+      "page": "/pcv",
+      "regex": "^/pcv(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pcv(?:/)?$"
+    },
+    {
+      "page": "/portfolio",
+      "regex": "^/portfolio(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/portfolio(?:/)?$"
+    },
+    {
+      "page": "/story",
+      "regex": "^/story(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/story(?:/)?$"
     },
     {
       "page": "/vendors",
