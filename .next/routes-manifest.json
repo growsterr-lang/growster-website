@@ -21,6 +21,12 @@
   "dynamicRoutes": [],
   "staticRoutes": [
     {
+      "page": "/grow",
+      "regex": "^/grow(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/grow(?:/)?$"
+    },
+    {
       "page": "/vendors",
       "regex": "^/vendors(?:/)?$",
       "routeKeys": {},

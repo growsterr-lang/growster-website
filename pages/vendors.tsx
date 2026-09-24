@@ -159,89 +159,89 @@ export default function VendorsPage() {
         <title>Vendor Invoices | Growster</title>
       </Head>
 
-      <h1 style={{ color: '#fff', marginBottom: 4 }}>Vendor Invoices</h1>
-      <p style={{ color: '#888', marginBottom: 32 }}>
+      <h1 style={{ color: '#fff', marginBottom: 4, fontSize: 'clamp(22px, 5vw, 28px)' }}>Vendor Invoices</h1>
+      <p style={{ color: '#888', marginBottom: 32, fontSize: 14, lineHeight: 1.5 }}>
         Submit your invoice and registration details below. We will email you once payment is processed.
       </p>
 
-      <form onSubmit={handleSubmit} style={cardStyle}>
-        <h2 style={sectionHeading}>Your details</h2>
-        <div style={rowStyle}>
+      <form onSubmit={handleSubmit} className="card">
+        <h2 className="section-heading">Your details</h2>
+        <div className="row">
           <Field label="Vendor / company name *">
-            <input style={inputStyle} value={name} onChange={(e) => setName(e.target.value)} required />
+            <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
           </Field>
           <Field label="Contact person">
-            <input style={inputStyle} value={contactName} onChange={(e) => setContactName(e.target.value)} />
+            <input className="input" value={contactName} onChange={(e) => setContactName(e.target.value)} />
           </Field>
         </div>
-        <div style={rowStyle}>
+        <div className="row">
           <Field label="Email * (payment notifications go here)">
-            <input style={inputStyle} type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
+            <input className="input" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
           </Field>
           <Field label="Phone">
-            <input style={inputStyle} value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+            <input className="input" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
           </Field>
         </div>
-        <div style={rowStyle}>
+        <div className="row">
           <Field label="GST number">
-            <input style={inputStyle} value={gst} onChange={(e) => setGst(e.target.value)} />
+            <input className="input" value={gst} onChange={(e) => setGst(e.target.value)} />
           </Field>
           <Field label="PAN number">
-            <input style={inputStyle} value={pan} onChange={(e) => setPan(e.target.value)} />
+            <input className="input" value={pan} onChange={(e) => setPan(e.target.value)} />
           </Field>
         </div>
 
-        <h2 style={{ ...sectionHeading, marginTop: 28 }}>Bank details</h2>
-        <div style={rowStyle}>
+        <h2 className="section-heading" style={{ marginTop: 28 }}>Bank details</h2>
+        <div className="row">
           <Field label="Account holder name">
-            <input style={inputStyle} value={bankAccountName} onChange={(e) => setBankAccountName(e.target.value)} />
+            <input className="input" value={bankAccountName} onChange={(e) => setBankAccountName(e.target.value)} />
           </Field>
           <Field label="Account number *">
-            <input style={inputStyle} value={bankAccountNumber} onChange={(e) => setBankAccountNumber(e.target.value)} required />
+            <input className="input" value={bankAccountNumber} onChange={(e) => setBankAccountNumber(e.target.value)} required />
           </Field>
         </div>
         <Field label="IFSC *">
-          <input style={inputStyle} value={bankIfsc} onChange={(e) => setBankIfsc(e.target.value)} required />
+          <input className="input" value={bankIfsc} onChange={(e) => setBankIfsc(e.target.value)} required />
         </Field>
 
-        <h2 style={{ ...sectionHeading, marginTop: 28 }}>Invoice</h2>
-        <div style={rowStyle}>
+        <h2 className="section-heading" style={{ marginTop: 28 }}>Invoice</h2>
+        <div className="row">
           <Field label="Invoice number">
-            <input style={inputStyle} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} placeholder="e.g. INV-2026-014" />
+            <input className="input" value={invoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} placeholder="e.g. INV-2026-014" />
           </Field>
           <Field label="Amount (Rs) *">
-            <input style={inputStyle} type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+            <input className="input" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
           </Field>
         </div>
         <Field label="What's this for?">
-          <input style={inputStyle} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Reel shoot - Be Neude, Sept batch" />
+          <input className="input" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Reel shoot - Be Neude, Sept batch" />
         </Field>
         <Field label="Invoice link (Drive / Dropbox) *">
-          <input style={inputStyle} value={invoiceLink} onChange={(e) => setInvoiceLink(e.target.value)} required />
+          <input className="input" value={invoiceLink} onChange={(e) => setInvoiceLink(e.target.value)} required />
         </Field>
         <Field label="PO reference (if any)">
-          <input style={inputStyle} value={poReference} onChange={(e) => setPoReference(e.target.value)} />
+          <input className="input" value={poReference} onChange={(e) => setPoReference(e.target.value)} />
         </Field>
 
         {error && <p style={{ color: '#ff0080', fontSize: 13 }}>{error}</p>}
         {success && <p style={{ color: '#22c55e', fontSize: 13 }}>Submitted - check status below anytime with your email.</p>}
 
-        <button type="submit" disabled={submitting} style={buttonStyle}>
+        <button type="submit" disabled={submitting} className="btn-primary" style={{ width: '100%', maxWidth: 260 }}>
           {submitting ? 'Submitting...' : 'Submit invoice'}
         </button>
       </form>
 
-      <div style={{ ...cardStyle, marginTop: 32 }}>
-        <h2 style={sectionHeading}>Check your submission status</h2>
-        <form onSubmit={handleLookup} style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+      <div className="card" style={{ marginTop: 32 }}>
+        <h2 className="section-heading">Check your submission status</h2>
+        <form onSubmit={handleLookup} className="lookup-row">
           <input
-            style={inputStyle}
+            className="input"
             type="email"
             placeholder="Your email"
             value={lookupEmail}
             onChange={(e) => setLookupEmail(e.target.value)}
           />
-          <button type="submit" style={{ ...buttonStyle, padding: '10px 24px' }}>
+          <button type="submit" className="btn-primary" style={{ padding: '10px 24px', flexShrink: 0 }}>
             {lookupLoading ? '...' : 'Check'}
           </button>
         </form>
@@ -249,16 +249,16 @@ export default function VendorsPage() {
         {lookupSubs && lookupSubs.length > 0 && (
           <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {lookupSubs.map((s) => (
-              <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #1f1f28', paddingTop: 10 }}>
-                <div>
-                  <div style={{ color: '#fff', fontSize: 14 }}>
+              <div key={s.id} className="status-row">
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ color: '#fff', fontSize: 14, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.invoice_number || 'No invoice #'} - Rs{Number(s.amount).toLocaleString('en-IN')}
                   </div>
                   <div style={{ color: '#555', fontSize: 12 }}>
                     {new Date(s.submitted_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </div>
                 </div>
-                <span style={{ padding: '5px 12px', borderRadius: 99, fontSize: 12, fontWeight: 600, color: '#fff', background: STATUS_COLOR[s.status] }}>
+                <span className="status-pill" style={{ background: STATUS_COLOR[s.status] }}>
                   {STATUS_LABEL[s.status]}
                 </span>
               </div>
@@ -266,48 +266,131 @@ export default function VendorsPage() {
           </div>
         )}
       </div>
+
+      <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
+        html, body {
+          overflow-x: hidden;
+          max-width: 100%;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+          -webkit-text-fill-color: #fff;
+          -webkit-box-shadow: 0 0 0px 1000px #0d0d12 inset;
+          transition: background-color 9999s ease-in-out 0s;
+          caret-color: #fff;
+        }
+        .card {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 16px;
+          padding: 24px;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+        .section-heading {
+          color: #fff;
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+        .row {
+          display: flex;
+          gap: 16px;
+          margin-bottom: 0;
+        }
+        .row > div {
+          flex: 1;
+          min-width: 0;
+        }
+        .input {
+          width: 100%;
+          max-width: 100%;
+          padding: 10px 14px;
+          border-radius: 10px;
+          border: 1px solid #2a2a35;
+          background: #0d0d12;
+          color: #fff;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 14px;
+          outline: none;
+          transition: border-color 0.15s ease;
+        }
+        .input:focus {
+          border-color: #ff0080;
+        }
+        .input::placeholder {
+          color: #555;
+        }
+        .btn-primary {
+          padding: 12px 28px;
+          border-radius: 99px;
+          border: none;
+          background: linear-gradient(90deg, #ff0080, #8b5cf6);
+          color: #fff;
+          font-weight: 600;
+          font-family: 'Montserrat', sans-serif;
+          cursor: pointer;
+          font-size: 14px;
+        }
+        .btn-primary:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        .lookup-row {
+          display: flex;
+          gap: 8px;
+          margin-top: 12px;
+          flex-wrap: wrap;
+        }
+        .lookup-row .input {
+          flex: 1;
+          min-width: 160px;
+        }
+        .status-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding-top: 10px;
+        }
+        .status-pill {
+          padding: 5px 12px;
+          border-radius: 99px;
+          font-size: 12px;
+          font-weight: 600;
+          color: #fff;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+          .row {
+            flex-direction: column;
+            gap: 0;
+          }
+        }
+      `}</style>
     </Shell>
   );
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#050508', fontFamily: 'Montserrat, sans-serif', padding: '48px 24px' }}>
-      <div style={{ maxWidth: 640, margin: '0 auto' }}>{children}</div>
+    <div style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden', background: '#050508', fontFamily: 'Montserrat, sans-serif', padding: '48px 16px' }}>
+      <div style={{ maxWidth: 640, margin: '0 auto', width: '100%' }}>{children}</div>
     </div>
   );
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ flex: 1, marginBottom: 16 }}>
+    <div style={{ marginBottom: 16 }}>
       <label style={{ display: 'block', color: '#aaa', fontSize: 13, marginBottom: 6 }}>{label}</label>
       {children}
     </div>
   );
 }
-
-const sectionHeading: React.CSSProperties = { color: '#fff', fontSize: 16, marginBottom: 16 };
-const cardStyle: React.CSSProperties = { background: '#0d0d12', border: '1px solid #1f1f28', borderRadius: 16, padding: 24 };
-const rowStyle: React.CSSProperties = { display: 'flex', gap: 16 };
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '10px 14px',
-  borderRadius: 10,
-  border: '1px solid #2a2a35',
-  background: '#050508',
-  color: '#fff',
-  fontFamily: 'Montserrat, sans-serif',
-  fontSize: 14,
-};
-const buttonStyle: React.CSSProperties = {
-  padding: '12px 28px',
-  borderRadius: 99,
-  border: 'none',
-  background: 'linear-gradient(90deg, #ff0080, #8b5cf6)',
-  color: '#fff',
-  fontWeight: 600,
-  fontFamily: 'Montserrat, sans-serif',
-  cursor: 'pointer',
-  fontSize: 14,
-};
