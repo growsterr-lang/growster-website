@@ -212,7 +212,7 @@ export default function VendorsPage() {
             <input className="input" value={invoiceNumber} onChange={(e) => setInvoiceNumber(e.target.value)} placeholder="e.g. INV-2026-014" />
           </Field>
           <Field label="Amount (Rs) *">
-            <input className="input" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+            <input className="input" type="text" inputMode="decimal" placeholder="e.g. 15000" value={amount} onChange={(e) => setAmount(e.target.value)} required />
           </Field>
         </div>
         <Field label="What's this for?">
