@@ -78,46 +78,45 @@ export default function VendorsPage() {
 
     setSubmitting(true);
 
-    const vendorRes = await sb('vendors?on_conflict=contact_email', {
-      method: 'POST',
-      headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
-      body: JSON.stringify({
-        contact_email: contactEmail,
-        name,
-        contact_name: contactName || null,
-        contact_phone: contactPhone || null,
-        gst_number: gst || null,
-        pan_number: pan || null,
-        bank_account_name: bankAccountName || null,
-        bank_account_number: bankAccountNumber,
-        bank_ifsc: bankIfsc,
-        updated_at: new Date().toISOString(),
-      }),
-    });
+    let link = invoiceLink.trim();
+    if (link && !/^https?:\/\//i.test(link)) link = 'https://' + link;
 
-    if (!vendorRes.ok) {
-      setError('Could not save your details. Please try again or reach out to us.');
+    let res: Response;
+    try {
+      res = await sb('rpc/submit_vendor_invoice', {
+        method: 'POST',
+        body: JSON.stringify({
+          p: {
+            contact_email: contactEmail.trim(),
+            name: name.trim(),
+            contact_name: contactName,
+            contact_phone: contactPhone,
+            gst_number: gst,
+            pan_number: pan,
+            bank_account_name: bankAccountName,
+            bank_account_number: bankAccountNumber,
+            bank_ifsc: bankIfsc,
+            invoice_number: invoiceNumber,
+            amount: amount.replace(/[,\s₹]/g, ''),
+            description,
+            invoice_link: link,
+            po_reference: poReference,
+          },
+        }),
+      });
+    } catch {
+      setError('Network error. Please check your connection and try again.');
       setSubmitting(false);
       return;
     }
-    const [vendor] = await vendorRes.json();
 
-    const subRes = await sb('vendor_submissions', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify({
-        vendor_id: vendor.id,
-        invoice_number: invoiceNumber || null,
-        amount: parseFloat(amount),
-        description: description || null,
-        invoice_link: invoiceLink,
-        po_reference: poReference || null,
-        status: 'submitted',
-      }),
-    });
-
-    if (!subRes.ok) {
-      setError('Your details were saved but the invoice submission failed. Please try again.');
+    if (!res.ok) {
+      let msg = 'Could not submit your invoice. Please try again or reach out to us.';
+      try {
+        const body = await res.json();
+        if (body?.message && /^Invalid /.test(body.message)) msg = body.message + '. Please check and try again.';
+      } catch {}
+      setError(msg);
       setSubmitting(false);
       return;
     }
@@ -139,17 +138,20 @@ export default function VendorsPage() {
     if (!lookupEmail) return;
     setLookupLoading(true);
 
-    const vRes = await sb('vendors?contact_email=eq.' + encodeURIComponent(lookupEmail) + '&select=id');
-    const [vendor] = await vRes.json();
-    if (!vendor) {
-      setLookupError('No submissions found for that email.');
-      setLookupLoading(false);
-      return;
+    try {
+      const sRes = await sb('rpc/vendor_submission_status', {
+        method: 'POST',
+        body: JSON.stringify({ p_email: lookupEmail }),
+      });
+      const subs = sRes.ok ? await sRes.json() : null;
+      if (!Array.isArray(subs) || subs.length === 0) {
+        setLookupError('No submissions found for that email.');
+      } else {
+        setLookupSubs(subs);
+      }
+    } catch {
+      setLookupError('Network error. Please try again.');
     }
-    const sRes = await sb(
-      'vendor_submissions?vendor_id=eq.' + vendor.id + '&select=id,invoice_number,amount,description,status,review_note,submitted_at&order=submitted_at.desc'
-    );
-    setLookupSubs(await sRes.json());
     setLookupLoading(false);
   };
 
